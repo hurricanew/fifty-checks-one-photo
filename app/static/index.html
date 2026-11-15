@@ -217,6 +217,7 @@
           </div>
           <p class="hint" id="replay-copy">Replay loads a fixed file labelled <strong>SAMPLE - not a real API result</strong>. It does not call the API, it does not score your photo, and it has no measured latency, tokens, or cost.</p>
           <p class="hint" id="key-status">Checking whether this server has a key…</p>
+          <p class="hint" id="limits">Live calls are rate limited. Replay is not.</p>
           <label class="fallback">
             <input id="fallback" type="checkbox" checked>
             <span>If the Decisions API is unavailable, call <span id="fallback-model">a regular Gemini model</span> for structured JSON. That path is a fallback: its confidence is not calibrated, and its output tokens are billed.</span>
@@ -273,6 +274,10 @@
       document.querySelector("#key-status").textContent = meta.live_key_set
         ? "GEMINI_API_KEY is set on this server. Live mode will call " + meta.model + " at resolution " + meta.image_resolution + "."
         : "This server has no GEMINI_API_KEY. Live mode will refuse and will not invent a result.";
+      document.querySelector("#limits").textContent =
+        "Live calls are limited to " + meta.live_calls_per_ip_per_hour +
+        " per address per hour, and " + meta.live_calls_per_day +
+        " live calls in total per 24 hours. Replay is not limited. Over the limit, live mode returns HTTP 429 and the photo is not stored.";
     }).catch(() => {
       document.querySelector("#key-status").textContent = "Could not read server settings.";
     });

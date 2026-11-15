@@ -40,11 +40,15 @@ The server reads the upload into memory, checks the size and the MIME type again
 
 | Variable | Role |
 | --- | --- |
-| `GEMINI_API_KEY` | Required for live mode and for `scripts/measure.py`. The app reads this variable and passes it to `genai.Client(api_key=..., http_options={"api_version": "v1beta"})`. |
+| `GEMINI_API_KEY` | Required for live mode and for `scripts/measure.py`. The app reads this variable and passes it to `genai.Client(api_key=..., http_options={"api_version": "v1beta"})`. Set it as a host secret. Never put it in the image. |
+| `LIVE_CALLS_PER_IP_PER_HOUR` | Live calls from one address per rolling hour. Default 5. |
+| `LIVE_CALLS_PER_DAY` | Live calls from everyone per rolling 24 hours. Default 200. |
+| `TRUST_PROXY` | Set to `1` only behind a trusted reverse proxy. Then the client address is the rightmost `X-Forwarded-For` entry. Unset, that header is ignored. |
+| `PORT` | Port the container listens on. See `DEPLOY.md`. |
 
 `GOOGLE_API_KEY` alone is not treated as a key. Live mode and `measure.py` refuse to run when `GEMINI_API_KEY` is unset, including when some other Google variable is present. They do not invent a result.
 
-No `.env` file is loaded. Do not commit a key.
+No `.env` file is loaded. Do not commit a key. Public hosting is in `DEPLOY.md`.
 
 ## Modes
 
@@ -59,6 +63,8 @@ No `.env` file is loaded. Do not commit a key.
 The image resolution defaults to `medium` (`low`, `medium`, `high`, `ultra_high` are the documented values). Change it in `data/config.json`.
 
 If `GEMINI_API_KEY` is missing, live mode returns HTTP 503 and a message that says the API was not called.
+
+Live calls are also capped: 5 per address per rolling hour and 200 across everyone per rolling 24 hours, unless the env vars above say otherwise. The 6th call from one address, or a call after the daily cap, returns HTTP 429 and does not call the API. Replay is not counted. The counters are in process memory. They are not a photo log.
 
 **Fallback** is optional and off unless the request asks for it (the checkbox on the page, sent as `fallback=1`). It runs only after a live call fails because the Decisions API looks unavailable (HTTP 404, 410, or 501, or a not-found / unimplemented error). Auth failures, quota errors, and other call failures are shown as errors and do **not** fall through. The fallback calls `gemini-3.5-flash` (override `fallback_model` in `data/config.json`) with structured JSON. The page labels that result:
 
@@ -81,10 +87,11 @@ Checks live in `data/checks.json`. Each one is a single visible question (cables
 ## Measure live calls
 
 ```bash
-GEMINI_API_KEY=your-key python scripts/measure.py --photos photos --calls 3
+GEMINI_API_KEY=your-key python scripts/measure.py --photos photos --calls 3 --resolution medium
+GEMINI_API_KEY=your-key python scripts/measure.py --photos photos --calls 3 --resolution high
 ```
 
-This makes `--calls` live requests, cycling through the images in the folder if you ask for more calls than photos. It writes:
+`--resolution` is `medium` or `high`. Omit it to use `image_resolution` in `data/config.json`. This makes `--calls` live requests, cycling through the images in the folder if you ask for more calls than photos. It prints a short summary, and it writes:
 
 - `evidence/measurements.json` — per-call latency, input tokens, output tokens, and cost, plus min / p50 / p95 / max latency
 - `evidence/measurements.md` — the same table

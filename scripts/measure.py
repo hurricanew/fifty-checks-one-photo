@@ -12,6 +12,7 @@ import argparse
 import json
 import math
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +27,7 @@ from app.service import api_key_from_env, build_client, public_error, timed_deci
 from app.uploads import matches_mime, validate_image
 
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif"}
+MEASURE_RESOLUTIONS = ("medium", "high")
 REFUSAL = (
     "Refusing to run: GEMINI_API_KEY is not set. "
     "measure.py will not fabricate latency, token counts, or cost."
@@ -36,6 +38,13 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--photos", type=Path, required=True, help="Folder of rack photos")
     parser.add_argument("--calls", type=int, required=True, help="Number of live API calls to make")
+    parser.add_argument(
+        "--resolution",
+        choices=MEASURE_RESOLUTIONS,
+        default=None,
+        help="Image resolution sent to the Decisions API: medium or high. "
+        "Default is image_resolution in data/config.json.",
+    )
     parser.add_argument(
         "--output",
         type=Path,
@@ -57,6 +66,8 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     settings = load_settings()
+    if args.resolution is not None:
+        settings = replace(settings, image_resolution=args.resolution)
     checks = load_checks(settings.checks_path)
     photos = list_photos(args.photos)
     if not photos:
@@ -111,6 +122,7 @@ def main(argv: list[str] | None = None) -> int:
         "model": settings.model,
         "api_version": settings.api_version,
         "calls_requested": args.calls,
+        "image_resolution": settings.image_resolution,
         "clock": "time.perf_counter around client.decisions.create only",
         "cost_formula": "input_tokens * 0.10 / 1000000",
         "output_billed": False,
@@ -125,6 +137,7 @@ def main(argv: list[str] | None = None) -> int:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
     args.markdown.write_text(render_markdown(document), encoding="utf-8")
+    print(render_human(document))
     print(f"Wrote {args.output}")
     print(f"Wrote {args.markdown}")
     return 0 if any(row.get("ok") for row in records) else 1
@@ -185,6 +198,7 @@ def render_markdown(document: dict) -> str:
         "Failed calls are listed without latency, token, or cost figures.",
         "",
         f"Model: `{document['model']}`",
+        f"Resolution: `{document.get('image_resolution', 'unspecified')}`",
         "",
         "| Photo | OK | Latency (ms) | Input tokens | Output tokens | Cost (USD) |",
         "| --- | --- | ---: | ---: | ---: | ---: |",
@@ -213,6 +227,36 @@ def render_markdown(document: dict) -> str:
             )
         )
     lines.append("")
+    return "\n".join(lines)
+
+
+def render_human(document: dict) -> str:
+    """Short stdout summary. Same figures as the files, no extra estimates."""
+    calls = document["calls"]
+    ok = [row for row in calls if row.get("ok")]
+    failed = len(calls) - len(ok)
+    resolution = document.get("image_resolution", "unspecified")
+    lines = [
+        f"{len(calls)} live calls at resolution {resolution}: {len(ok)} succeeded, {failed} failed."
+    ]
+    summary = document.get("latency_ms")
+    if not summary:
+        lines.append("No successful call, so latency, tokens, and cost were not summarized.")
+    else:
+        lines.append(
+            "Latency ms: min {min:.1f}, p50 {p50:.1f}, p95 {p95:.1f}, max {max:.1f}.".format(**summary)
+        )
+        tokens = [row.get("input_tokens") for row in ok]
+        costs = [row.get("cost_usd") for row in ok]
+        if any(token is None for token in tokens):
+            lines.append("Input tokens were missing on a successful call, so they are not totaled.")
+        else:
+            lines.append("Input tokens: " + ", ".join(str(token) for token in tokens) + ".")
+        if any(cost is None for cost in costs):
+            lines.append("Cost was not computed for every successful call.")
+        else:
+            lines.append("Cost USD: " + ", ".join(str(cost) for cost in costs) + ".")
+    lines.append("Output tokens are not billed. These figures were measured on the live calls above.")
     return "\n".join(lines)
 
 

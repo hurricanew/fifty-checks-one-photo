@@ -11,6 +11,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, Response
 from app.checks import load_checks
 from app.config import load_settings
 from app.labels import SAMPLE_LABEL
+from app.limits import RateLimited, client_ip, limiter_from_env, trust_proxy_from_env
 from app.sample_data import load_sample
 from app.service import CallFailed, MissingApiKey, api_key_from_env, evaluate
 from app.uploads import UploadError, parse_upload, validate_image
@@ -27,6 +28,8 @@ def create_app() -> FastAPI:
     app.state.settings = settings
     app.state.checks = checks
     app.state.sample = sample
+    app.state.limiter = limiter_from_env()
+    app.state.trust_proxy = trust_proxy_from_env()
 
     @app.get("/", response_class=HTMLResponse)
     def index() -> HTMLResponse:
@@ -58,6 +61,9 @@ def create_app() -> FastAPI:
                 },
                 "sample_label": SAMPLE_LABEL,
                 "cost_formula": "input_tokens * 0.10 / 1000000",
+                "live_calls_per_ip_per_hour": app.state.limiter.per_ip_per_hour,
+                "live_calls_per_day": app.state.limiter.per_day,
+                "trust_proxy": app.state.trust_proxy,
             },
             headers={"Cache-Control": "no-store"},
         )
@@ -88,6 +94,14 @@ def create_app() -> FastAPI:
                 current.max_upload_bytes,
             )
             mime = validate_image(data, mime, current.allowed_mime_types, current.max_upload_bytes)
+            if mode == "live":
+                request.app.state.limiter.allow(
+                    client_ip(
+                        request.client.host if request.client else None,
+                        request.headers.get("x-forwarded-for"),
+                        request.app.state.trust_proxy,
+                    )
+                )
             payload = await asyncio.to_thread(
                 evaluate,
                 mode=mode,
@@ -99,6 +113,8 @@ def create_app() -> FastAPI:
                 fallback_requested=fallback,
             )
         except UploadError as exc:
+            raise HTTPException(status_code=exc.status_code, detail=str(exc)) from exc
+        except RateLimited as exc:
             raise HTTPException(status_code=exc.status_code, detail=str(exc)) from exc
         except MissingApiKey as exc:
             raise HTTPException(status_code=503, detail=str(exc)) from exc

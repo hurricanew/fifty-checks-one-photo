@@ -13,3 +13,10 @@ def block_network(monkeypatch):
     monkeypatch.setattr(socket, "create_connection", blocked)
     monkeypatch.setattr(socket.socket, "connect", blocked)
     monkeypatch.setattr(socket.socket, "connect_ex", blocked)
+    for name in (
+        "GEMINI_API_KEY",
+        "TRUST_PROXY",
+        "LIVE_CALLS_PER_IP_PER_HOUR",
+        "LIVE_CALLS_PER_DAY",
+    ):
+        monkeypatch.delenv(name, raising=False)

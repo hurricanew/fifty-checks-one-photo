@@ -1,7 +1,10 @@
 import importlib.util
+import io
+import json
 import os
 import subprocess
 import sys
+from contextlib import redirect_stdout
 
 from app.config import ROOT
 
@@ -41,6 +44,13 @@ def test_percentile_and_markdown_use_only_successful_calls():
     assert "p50 10.0" in text
     assert "| b.jpg | no |  |  |  |  |" in text
     assert "0.00001000" in text
+    document["image_resolution"] = "high"
+    summary = measure.render_human(document)
+    assert "resolution high" in summary
+    assert "1 succeeded, 1 failed" in summary
+    assert "p50 10.0" in summary
+    assert "0.00001000" in summary
+    assert "Output tokens are not billed" in summary
 
 
 def test_measure_refuses_without_gemini_api_key(tmp_path):
@@ -91,3 +101,85 @@ def test_help_does_not_require_a_key():
     )
     assert result.returncode == 0
     assert "--calls" in result.stdout
+    assert "--resolution" in result.stdout
+
+
+def test_resolution_flag_rejects_other_values_without_a_key(tmp_path):
+    env = os.environ.copy()
+    env.pop("GEMINI_API_KEY", None)
+    output = tmp_path / "measurements.json"
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "measure.py"),
+            "--photos",
+            str(ROOT / "photos"),
+            "--calls",
+            "1",
+            "--resolution",
+            "low",
+            "--output",
+            str(output),
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 2
+    assert "medium" in result.stderr
+    assert "high" in result.stderr
+    assert not output.exists()
+
+
+def test_high_resolution_is_sent_and_summarized_without_a_network_call(tmp_path, monkeypatch):
+    measure = _load()
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key-not-used")
+    monkeypatch.setattr(measure, "build_client", lambda _key: object())
+    seen = {}
+
+    def timed(_client, request):
+        seen["resolution"] = request["input"][1]["resolution"]
+
+        class Usage:
+            total_input_tokens = 100
+            total_output_tokens = 0
+
+        class Result:
+            answers = {}
+            usage = Usage()
+
+        return Result(), 12.5
+
+    monkeypatch.setattr(measure, "timed_decisions_call", timed)
+    output = tmp_path / "measurements.json"
+    markdown = tmp_path / "measurements.md"
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        code = measure.main(
+            [
+                "--photos",
+                str(ROOT / "photos"),
+                "--calls",
+                "1",
+                "--resolution",
+                "high",
+                "--output",
+                str(output),
+                "--markdown",
+                str(markdown),
+            ]
+        )
+    assert code == 0
+    assert seen["resolution"] == "high"
+    document = json.loads(output.read_text(encoding="utf-8"))
+    assert document["image_resolution"] == "high"
+    assert document["calls"][0]["latency_ms"] == 12.5
+    assert document["calls"][0]["cost_usd"] == "0.00001000"
+    printed = buf.getvalue()
+    assert "resolution high" in printed
+    assert "p50 12.5" in printed
+    assert "Wrote" in printed
+    assert "high" in markdown.read_text(encoding="utf-8")
+    assert not (ROOT / "evidence" / "measurements.json").exists()
