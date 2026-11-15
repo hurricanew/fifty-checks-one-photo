@@ -1,256 +1,266 @@
 {
-  "label": "SAMPLE - not a real API result",
-  "note": "Hand-written probabilities so replay can draw tiles. They are not a model reading of any photo. Latency, input tokens, and cost were not measured and are omitted on purpose. Replace this file by running scripts/refresh_sample.py with a real key.",
+  "label": "Recorded from one live Decisions API call",
+  "recorded": true,
+  "note": "Written by scripts/refresh_sample.py from one live Decisions API call. Latency is time.perf_counter() around that call only. Cost is input_tokens * 0.10 / 1_000_000. The photo bytes are not stored here.",
+  "model": "gemini-decision-1",
+  "image_resolution": "medium",
+  "photo_name": "portrait-wavy-hair.jpg",
+  "latency_ms": 1404.1754500067327,
+  "cost_usd": "0.00047970",
+  "usage": {
+    "total_input_tokens": 4797,
+    "total_output_tokens": 0
+  },
   "answers": {
-    "even_light": {
+    "stands_out": {
       "type": "noul",
-      "noul": 0.93,
-      "confidence": 0.91
-    },
-    "balanced_exposure": {
-      "type": "noul",
-      "noul": 0.08,
-      "confidence": 0.87
-    },
-    "faces_lit": {
-      "type": "noul",
-      "noul": 0.5,
-      "confidence": 0.95
-    },
-    "harsh_backlight": {
-      "type": "noul",
-      "noul": 0.96,
-      "confidence": 0.42
-    },
-    "blown_highlights": {
-      "type": "noul",
-      "noul": 0.4,
-      "confidence": 0.8
-    },
-    "crushed_shadows": {
-      "type": "noul",
-      "noul": 0.61,
-      "confidence": 0.77
-    },
-    "catchlights": {
-      "type": "noul",
-      "noul": 0.39,
-      "confidence": 0.84
-    },
-    "nice_and_sharp": {
-      "type": "noul",
-      "noul": 0.7,
-      "confidence": 0.7
-    },
-    "eyes_sharp": {
-      "type": "noul",
-      "noul": 0.12,
-      "confidence": 0.69
-    },
-    "motion_blur": {
-      "type": "noul",
-      "noul": 0.88,
-      "confidence": 0.81
-    },
-    "camera_shake": {
-      "type": "noul",
-      "noul": 0.05,
-      "confidence": 0.93
+      "noul": 0.4886230204611355,
+      "confidence": 0.5113769795388645
     },
     "focus_on_people": {
       "type": "noul",
-      "noul": 0.99,
-      "confidence": 0.99
-    },
-    "everyone_sharp": {
-      "type": "noul",
-      "noul": 0.6,
-      "confidence": 0.9
-    },
-    "eyes_open": {
-      "type": "noul",
-      "noul": 0.41,
-      "confidence": 0.55
-    },
-    "looking_at_camera": {
-      "type": "noul",
-      "noul": 0.72,
-      "confidence": 0.66
-    },
-    "red_eye": {
-      "type": "noul",
-      "noul": 0.93,
-      "confidence": 0.91
-    },
-    "mid_blink": {
-      "type": "noul",
-      "noul": 0.08,
-      "confidence": 0.87
-    },
-    "glasses_glare": {
-      "type": "noul",
-      "noul": 0.5,
-      "confidence": 0.95
-    },
-    "faces_forward": {
-      "type": "noul",
-      "noul": 0.96,
-      "confidence": 0.42
-    },
-    "eyes_clear": {
-      "type": "noul",
-      "noul": 0.4,
-      "confidence": 0.8
-    },
-    "relaxed_smile": {
-      "type": "noul",
-      "noul": 0.61,
-      "confidence": 0.77
-    },
-    "at_ease": {
-      "type": "noul",
-      "noul": 0.39,
-      "confidence": 0.84
-    },
-    "shared_mood": {
-      "type": "noul",
-      "noul": 0.7,
-      "confidence": 0.7
-    },
-    "squinting": {
-      "type": "noul",
-      "noul": 0.12,
-      "confidence": 0.69
-    },
-    "easy_expression": {
-      "type": "noul",
-      "noul": 0.88,
-      "confidence": 0.81
-    },
-    "cut_off_edge": {
-      "type": "noul",
-      "noul": 0.05,
-      "confidence": 0.93
-    },
-    "head_cropped": {
-      "type": "noul",
-      "noul": 0.99,
-      "confidence": 0.99
-    },
-    "upright_background": {
-      "type": "noul",
-      "noul": 0.6,
-      "confidence": 0.9
-    },
-    "balanced_placement": {
-      "type": "noul",
-      "noul": 0.41,
-      "confidence": 0.55
-    },
-    "room_above_head": {
-      "type": "noul",
-      "noul": 0.72,
-      "confidence": 0.66
-    },
-    "face_large_enough": {
-      "type": "noul",
-      "noul": 0.93,
-      "confidence": 0.91
-    },
-    "square_crop": {
-      "type": "noul",
-      "noul": 0.08,
-      "confidence": 0.87
-    },
-    "camera_tilt": {
-      "type": "noul",
-      "noul": 0.5,
-      "confidence": 0.95
-    },
-    "space_around": {
-      "type": "noul",
-      "noul": 0.96,
-      "confidence": 0.42
-    },
-    "shoulders_in": {
-      "type": "noul",
-      "noul": 0.4,
-      "confidence": 0.8
-    },
-    "tidy_background": {
-      "type": "noul",
-      "noul": 0.61,
-      "confidence": 0.77
-    },
-    "busy_background": {
-      "type": "noul",
-      "noul": 0.39,
-      "confidence": 0.84
+      "noul": 0.8777667980328799,
+      "confidence": 0.8777667980328799
     },
     "object_on_head": {
       "type": "noul",
-      "noul": 0.7,
-      "confidence": 0.7
-    },
-    "photobomber": {
-      "type": "noul",
-      "noul": 0.12,
-      "confidence": 0.69
-    },
-    "lens_flare": {
-      "type": "noul",
-      "noul": 0.88,
-      "confidence": 0.81
-    },
-    "clutter_behind": {
-      "type": "noul",
-      "noul": 0.05,
-      "confidence": 0.93
-    },
-    "stands_out": {
-      "type": "noul",
-      "noul": 0.99,
-      "confidence": 0.99
-    },
-    "natural_colours": {
-      "type": "noul",
-      "noul": 0.6,
-      "confidence": 0.9
-    },
-    "colour_cast": {
-      "type": "noul",
-      "noul": 0.41,
-      "confidence": 0.55
-    },
-    "harsh_saturation": {
-      "type": "noul",
-      "noul": 0.72,
-      "confidence": 0.66
-    },
-    "consistent_colour": {
-      "type": "noul",
-      "noul": 0.93,
-      "confidence": 0.91
-    },
-    "white_balance": {
-      "type": "noul",
-      "noul": 0.08,
-      "confidence": 0.87
+      "noul": 0.09465701828275978,
+      "confidence": 0.9053429817172403
     },
     "profile_square": {
       "type": "noul",
-      "noul": 0.5,
-      "confidence": 0.95
+      "noul": 0.7958158827346081,
+      "confidence": 0.7958158827346081
     },
-    "face_share": {
+    "cut_off_edge": {
       "type": "noul",
-      "noul": 0.96,
-      "confidence": 0.42
+      "noul": 0.32167568226247295,
+      "confidence": 0.6783243177375271
+    },
+    "camera_tilt": {
+      "type": "noul",
+      "noul": 0.1720712446503949,
+      "confidence": 0.8279287553496051
+    },
+    "white_balance": {
+      "type": "noul",
+      "noul": 0.5343052004282808,
+      "confidence": 0.5343052004282808
+    },
+    "lens_flare": {
+      "type": "noul",
+      "noul": 0.13594566451996157,
+      "confidence": 0.8640543354800384
+    },
+    "shared_mood": {
+      "type": "noul",
+      "noul": 0.19644036365257753,
+      "confidence": 0.8035596363474224
+    },
+    "everyone_sharp": {
+      "type": "noul",
+      "noul": 0.8878446079269,
+      "confidence": 0.8878446079269
+    },
+    "red_eye": {
+      "type": "noul",
+      "noul": 0.13449417918011197,
+      "confidence": 0.865505820819888
+    },
+    "easy_expression": {
+      "type": "noul",
+      "noul": 0.5985109757258984,
+      "confidence": 0.5985109757258984
+    },
+    "clutter_behind": {
+      "type": "noul",
+      "noul": 0.15114279758553098,
+      "confidence": 0.848857202414469
+    },
+    "motion_blur": {
+      "type": "noul",
+      "noul": 0.10516669776014964,
+      "confidence": 0.8948333022398504
+    },
+    "crushed_shadows": {
+      "type": "noul",
+      "noul": 0.5368248336019986,
+      "confidence": 0.5368248336019986
+    },
+    "faces_forward": {
+      "type": "noul",
+      "noul": 0.8725094808990462,
+      "confidence": 0.8725094808990462
+    },
+    "eyes_clear": {
+      "type": "noul",
+      "noul": 0.9137594674469781,
+      "confidence": 0.9137594674469781
+    },
+    "eyes_open": {
+      "type": "noul",
+      "noul": 0.9123224826180566,
+      "confidence": 0.9123224826180566
+    },
+    "blown_highlights": {
+      "type": "noul",
+      "noul": 0.1952862319541712,
+      "confidence": 0.8047137680458288
+    },
+    "at_ease": {
+      "type": "noul",
+      "noul": 0.620903278655479,
+      "confidence": 0.620903278655479
+    },
+    "harsh_saturation": {
+      "type": "noul",
+      "noul": 0.10816511416248359,
+      "confidence": 0.8918348858375165
     },
     "clear_subject": {
       "type": "noul",
-      "noul": 0.4,
-      "confidence": 0.8
+      "noul": 0.9167251942568558,
+      "confidence": 0.9167251942568558
+    },
+    "colour_cast": {
+      "type": "noul",
+      "noul": 0.561930158550814,
+      "confidence": 0.561930158550814
+    },
+    "faces_lit": {
+      "type": "noul",
+      "noul": 0.7702712412259721,
+      "confidence": 0.7702712412259721
+    },
+    "camera_shake": {
+      "type": "noul",
+      "noul": 0.14074905866316442,
+      "confidence": 0.8592509413368355
+    },
+    "busy_background": {
+      "type": "noul",
+      "noul": 0.1806705964256876,
+      "confidence": 0.8193294035743124
+    },
+    "natural_colours": {
+      "type": "noul",
+      "noul": 0.7045733160464475,
+      "confidence": 0.7045733160464475
+    },
+    "balanced_exposure": {
+      "type": "noul",
+      "noul": 0.6616327571338486,
+      "confidence": 0.6616327571338486
+    },
+    "space_around": {
+      "type": "noul",
+      "noul": 0.8368130796674494,
+      "confidence": 0.8368130796674494
+    },
+    "shoulders_in": {
+      "type": "noul",
+      "noul": 0.8262399764134384,
+      "confidence": 0.8262399764134384
+    },
+    "face_large_enough": {
+      "type": "noul",
+      "noul": 0.8760943892929652,
+      "confidence": 0.8760943892929652
+    },
+    "squinting": {
+      "type": "noul",
+      "noul": 0.15859021592935138,
+      "confidence": 0.8414097840706486
+    },
+    "balanced_placement": {
+      "type": "noul",
+      "noul": 0.8356735665150625,
+      "confidence": 0.8356735665150625
+    },
+    "tidy_background": {
+      "type": "noul",
+      "noul": 0.8275254785972502,
+      "confidence": 0.8275254785972502
+    },
+    "nice_and_sharp": {
+      "type": "noul",
+      "noul": 0.7391508578489933,
+      "confidence": 0.7391508578489933
+    },
+    "glasses_glare": {
+      "type": "noul",
+      "noul": 0.10606177690283133,
+      "confidence": 0.8939382230971686
+    },
+    "photobomber": {
+      "type": "noul",
+      "noul": 0.09208484766076053,
+      "confidence": 0.9079151523392395
+    },
+    "upright_background": {
+      "type": "noul",
+      "noul": 0.844287914799238,
+      "confidence": 0.844287914799238
+    },
+    "harsh_backlight": {
+      "type": "noul",
+      "noul": 0.1062631668225994,
+      "confidence": 0.8937368331774006
+    },
+    "even_light": {
+      "type": "noul",
+      "noul": 0.6058348847322103,
+      "confidence": 0.6058348847322103
+    },
+    "room_above_head": {
+      "type": "noul",
+      "noul": 0.6414840924054467,
+      "confidence": 0.6414840924054467
+    },
+    "head_cropped": {
+      "type": "noul",
+      "noul": 0.1268875829605856,
+      "confidence": 0.8731124170394144
+    },
+    "face_share": {
+      "type": "noul",
+      "noul": 0.4630039388166316,
+      "confidence": 0.5369960611833684
+    },
+    "eyes_sharp": {
+      "type": "noul",
+      "noul": 0.6402019981979237,
+      "confidence": 0.6402019981979237
+    },
+    "square_crop": {
+      "type": "noul",
+      "noul": 0.8662583631080529,
+      "confidence": 0.8662583631080529
+    },
+    "mid_blink": {
+      "type": "noul",
+      "noul": 0.1308443431101941,
+      "confidence": 0.8691556568898059
+    },
+    "relaxed_smile": {
+      "type": "noul",
+      "noul": 0.41565413523667033,
+      "confidence": 0.5843458647633297
+    },
+    "looking_at_camera": {
+      "type": "noul",
+      "noul": 0.7669290643087086,
+      "confidence": 0.7669290643087086
+    },
+    "catchlights": {
+      "type": "noul",
+      "noul": 0.5662947065096744,
+      "confidence": 0.5662947065096744
+    },
+    "consistent_colour": {
+      "type": "noul",
+      "noul": 0.7575257152323424,
+      "confidence": 0.7575257152323424
     }
   }
 }
