@@ -1,0 +1,256 @@
+{
+  "label": "SAMPLE - not a real API result",
+  "note": "Hand-written probabilities for replay mode. They are not an analysis of any photo. Latency, input tokens, and cost were not measured and are omitted on purpose.",
+  "answers": {
+    "vertical_managers": {
+      "type": "noul",
+      "noul": 0.93,
+      "confidence": 0.91
+    },
+    "horizontal_managers": {
+      "type": "noul",
+      "noul": 0.08,
+      "confidence": 0.87
+    },
+    "cables_in_managers": {
+      "type": "noul",
+      "noul": 0.5,
+      "confidence": 0.95
+    },
+    "bundles_strapped": {
+      "type": "noul",
+      "noul": 0.96,
+      "confidence": 0.42
+    },
+    "gentle_bends": {
+      "type": "noul",
+      "noul": 0.4,
+      "confidence": 0.8
+    },
+    "power_data_separated": {
+      "type": "noul",
+      "noul": 0.61,
+      "confidence": 0.77
+    },
+    "connectors_seated": {
+      "type": "noul",
+      "noul": 0.39,
+      "confidence": 0.84
+    },
+    "patch_cords_dressed": {
+      "type": "noul",
+      "noul": 0.7,
+      "confidence": 0.7
+    },
+    "spare_length_managed": {
+      "type": "noul",
+      "noul": 0.12,
+      "confidence": 0.69
+    },
+    "loose_cables_on_floor": {
+      "type": "noul",
+      "noul": 0.88,
+      "confidence": 0.81
+    },
+    "hanging_loops": {
+      "type": "noul",
+      "noul": 0.05,
+      "confidence": 0.93
+    },
+    "cables_cover_intakes": {
+      "type": "noul",
+      "noul": 0.99,
+      "confidence": 0.99
+    },
+    "blanking_panels": {
+      "type": "noul",
+      "noul": 0.6,
+      "confidence": 0.9
+    },
+    "open_front_gaps": {
+      "type": "noul",
+      "noul": 0.41,
+      "confidence": 0.55
+    },
+    "intakes_clear": {
+      "type": "noul",
+      "noul": 0.72,
+      "confidence": 0.66
+    },
+    "items_stored_in_rack": {
+      "type": "noul",
+      "noul": 0.93,
+      "confidence": 0.91
+    },
+    "bezels_installed": {
+      "type": "noul",
+      "noul": 0.08,
+      "confidence": 0.87
+    },
+    "empty_bays_filled": {
+      "type": "noul",
+      "noul": 0.5,
+      "confidence": 0.95
+    },
+    "mesh_or_perforated_door": {
+      "type": "noul",
+      "noul": 0.96,
+      "confidence": 0.42
+    },
+    "side_panel_installed": {
+      "type": "noul",
+      "noul": 0.4,
+      "confidence": 0.8
+    },
+    "rack_id_label": {
+      "type": "noul",
+      "noul": 0.61,
+      "confidence": 0.77
+    },
+    "unit_labels": {
+      "type": "noul",
+      "noul": 0.39,
+      "confidence": 0.84
+    },
+    "patch_port_labels": {
+      "type": "noul",
+      "noul": 0.7,
+      "confidence": 0.7
+    },
+    "cable_labels": {
+      "type": "noul",
+      "noul": 0.12,
+      "confidence": 0.69
+    },
+    "pdu_label": {
+      "type": "noul",
+      "noul": 0.88,
+      "confidence": 0.81
+    },
+    "u_position_marks": {
+      "type": "noul",
+      "noul": 0.05,
+      "confidence": 0.93
+    },
+    "front_door_present": {
+      "type": "noul",
+      "noul": 0.99,
+      "confidence": 0.99
+    },
+    "front_door_closed": {
+      "type": "noul",
+      "noul": 0.6,
+      "confidence": 0.9
+    },
+    "door_latch_closed": {
+      "type": "noul",
+      "noul": 0.41,
+      "confidence": 0.55
+    },
+    "equipment_on_rails": {
+      "type": "noul",
+      "noul": 0.72,
+      "confidence": 0.66
+    },
+    "rail_fasteners_visible": {
+      "type": "noul",
+      "noul": 0.93,
+      "confidence": 0.91
+    },
+    "fronts_flush": {
+      "type": "noul",
+      "noul": 0.08,
+      "confidence": 0.87
+    },
+    "rack_upright": {
+      "type": "noul",
+      "noul": 0.5,
+      "confidence": 0.95
+    },
+    "pdu_mounted": {
+      "type": "noul",
+      "noul": 0.96,
+      "confidence": 0.42
+    },
+    "status_leds_visible": {
+      "type": "noul",
+      "noul": 0.4,
+      "confidence": 0.8
+    },
+    "green_led_lit": {
+      "type": "noul",
+      "noul": 0.61,
+      "confidence": 0.77
+    },
+    "red_fault_led_lit": {
+      "type": "noul",
+      "noul": 0.39,
+      "confidence": 0.84
+    },
+    "amber_warning_led_lit": {
+      "type": "noul",
+      "noul": 0.7,
+      "confidence": 0.7
+    },
+    "link_leds_visible": {
+      "type": "noul",
+      "noul": 0.12,
+      "confidence": 0.69
+    },
+    "dark_equipment_face": {
+      "type": "noul",
+      "noul": 0.88,
+      "confidence": 0.81
+    },
+    "floor_clear": {
+      "type": "noul",
+      "noul": 0.05,
+      "confidence": 0.93
+    },
+    "liquid_visible": {
+      "type": "noul",
+      "noul": 0.99,
+      "confidence": 0.99
+    },
+    "heavy_dust": {
+      "type": "noul",
+      "noul": 0.6,
+      "confidence": 0.9
+    },
+    "cardboard_present": {
+      "type": "noul",
+      "noul": 0.41,
+      "confidence": 0.55
+    },
+    "tools_left_behind": {
+      "type": "noul",
+      "noul": 0.72,
+      "confidence": 0.66
+    },
+    "aisle_clearance": {
+      "type": "noul",
+      "noul": 0.93,
+      "confidence": 0.91
+    },
+    "overhead_tray": {
+      "type": "noul",
+      "noul": 0.08,
+      "confidence": 0.87
+    },
+    "raised_floor": {
+      "type": "noul",
+      "noul": 0.5,
+      "confidence": 0.95
+    },
+    "aisle_containment": {
+      "type": "noul",
+      "noul": 0.96,
+      "confidence": 0.42
+    },
+    "photo_is_rack": {
+      "type": "noul",
+      "noul": 0.4,
+      "confidence": 0.8
+    }
+  }
+}

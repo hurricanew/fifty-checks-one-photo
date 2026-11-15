@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>50 checks on one photo</title>
+  <style>
+    :root {
+      --paper: #f3efe6;
+      --ink: #1c1915;
+      --muted: #5c564c;
+      --card: #fffdf8;
+      --line: #d9d2c5;
+      --header: #1b2420;
+      --header-ink: #f6f1e6;
+      --green: #0f6b32;
+      --green-bg: #e5f2e4;
+      --red: #9f1d16;
+      --red-bg: #fde8e4;
+      --amber: #8a5b00;
+      --amber-bg: #fff1cc;
+      --focus: #0f6b32;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Segoe UI", system-ui, sans-serif;
+      line-height: 1.45;
+    }
+    header.banner {
+      background: var(--header);
+      color: var(--header-ink);
+      padding: 28px 20px 24px;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; }
+    .eyebrow {
+      margin: 0 0 6px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: #c8d5ce;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-family: Palatino, "Palatino Linotype", Georgia, serif;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .lede { margin: 0; max-width: 68ch; color: #e7e1d4; }
+    main { padding: 20px 20px 48px; }
+    .panel, .results, .notice {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .panel { margin-bottom: 16px; }
+    label.drop {
+      display: block;
+      border: 1.5px dashed #b7ad9c;
+      border-radius: 12px;
+      padding: 16px;
+      background: #faf7f1;
+      cursor: pointer;
+    }
+    label.drop:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+    input[type="file"] { display: block; margin-top: 8px; max-width: 100%; }
+    .modes { display: flex; flex-wrap: wrap; gap: 12px 20px; margin: 14px 0; }
+    .modes label, .fallback { display: flex; gap: 8px; align-items: flex-start; }
+    .hint { color: var(--muted); font-size: 14px; margin: 6px 0 0; }
+    button {
+      appearance: none;
+      border: 0;
+      background: var(--header);
+      color: var(--header-ink);
+      font: inherit;
+      font-weight: 650;
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.55; cursor: progress; }
+    button:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .preview { margin-top: 12px; }
+    .preview img { max-width: 100%; max-height: 280px; border-radius: 8px; display: block; }
+    .notice { margin-bottom: 16px; }
+    .notice.error { background: var(--red-bg); border-color: #e4b2ac; color: #6d120e; }
+    .notice.sample { background: #3d2e12; color: #ffe7a3; border-color: #3d2e12; }
+    .notice.fallback { background: #1d2a3a; color: #d6e6f5; border-color: #1d2a3a; }
+    .notice strong { font-weight: 750; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #faf7f1;
+    }
+    .stat span { display: block; color: var(--muted); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .stat strong {
+      display: block;
+      margin-top: 4px;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 20px;
+      font-variant-numeric: tabular-nums;
+    }
+    .note { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 14px; }
+    .pill {
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .pill.green { background: var(--green-bg); color: var(--green); }
+    .pill.red { background: var(--red-bg); color: var(--red); }
+    .pill.amber { background: var(--amber-bg); color: var(--amber); }
+    section.group { margin: 18px 0; }
+    section.group h2 {
+      margin: 0 0 8px;
+      font-family: Palatino, Georgia, serif;
+      font-size: 22px;
+    }
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 10px;
+    }
+    .tile {
+      border: 1px solid var(--line);
+      border-left-width: 6px;
+      border-radius: 10px;
+      padding: 10px 12px 12px;
+      background: var(--card);
+      min-height: 168px;
+    }
+    .tile.green { border-left-color: var(--green); background: var(--green-bg); }
+    .tile.red { border-left-color: var(--red); background: var(--red-bg); }
+    .tile.amber { border-left-color: var(--amber); background: var(--amber-bg); }
+    .tile h3 { margin: 6px 0 4px; font-size: 16px; line-height: 1.25; }
+    .tile p { margin: 0; color: var(--muted); font-size: 13px; }
+    .nums {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 8px;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-variant-numeric: tabular-nums;
+      font-size: 13px;
+    }
+    .meter {
+      position: relative;
+      height: 8px;
+      margin-top: 8px;
+      background: rgba(28, 25, 21, 0.12);
+      border-radius: 99px;
+    }
+    .meter .band {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background: rgba(138, 91, 0, 0.35);
+    }
+    .meter .mark {
+      position: absolute;
+      top: -3px;
+      width: 2px;
+      height: 14px;
+      background: var(--ink);
+    }
+    .yes-flag { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    footer {
+      padding: 8px 20px 32px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer .wrap { max-width: 1120px; }
+    @media (max-width: 720px) {
+      .stats { grid-template-columns: 1fr; }
+      .tiles { grid-template-columns: 1fr; }
+      header.banner { padding-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="banner">
+    <div class="wrap">
+      <p class="eyebrow">One photo, one API call</p>
+      <h1>50 checks on one photo</h1>
+      <p class="lede">Upload one phone photo of a server rack. Replay mode shows a fixed sample so you can see the tiles without a key. Live mode sends that photo once to Gemini Decision 1 and asks fifty yes/no questions in the same call. Green means the check looks good, red means it looks bad, amber means a person should look.</p>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <section class="panel">
+        <form id="form">
+          <label class="drop" for="photo">
+            <strong>Rack photo</strong>
+            <div class="hint">JPEG, PNG, WebP, HEIC, or HEIF. The server reads it in memory and does not store it. Cap is <span id="cap">10 MB</span>.</div>
+            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" required>
+          </label>
+          <div class="preview" id="preview" hidden>
+            <img id="preview-img" alt="Selected photo, shown only in this browser">
+            <p class="hint" id="preview-name"></p>
+          </div>
+          <div class="modes">
+            <label><input type="radio" name="mode" value="replay" checked> Replay sample</label>
+            <label><input type="radio" name="mode" value="live"> Live Decisions API</label>
+          </div>
+          <p class="hint" id="replay-copy">Replay loads a fixed file labelled <strong>SAMPLE - not a real API result</strong>. It does not call the API, it does not score your photo, and it has no measured latency, tokens, or cost.</p>
+          <p class="hint" id="key-status">Checking whether this server has a key…</p>
+          <label class="fallback">
+            <input id="fallback" type="checkbox" checked>
+            <span>If the Decisions API is unavailable, call <span id="fallback-model">a regular Gemini model</span> for structured JSON. That path is a fallback: its confidence is not calibrated, and its output tokens are billed.</span>
+          </label>
+          <p class="hint" id="cutoffs">Cut-offs load with the page.</p>
+          <p><button id="submit" type="submit">Run 50 checks</button></p>
+        </form>
+      </section>
+      <div id="state"></div>
+      <div id="results"></div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Tile colors are a reading of P(yes) and confidence against the cut-offs on this page. They are not a measured accuracy score. Google's free tier may use submitted photos to improve its products; use the paid tier, or only photos you are willing to submit. Demo photos in <code>photos/</code> are credited in <code>photos/ATTRIBUTION.md</code>.</p>
+    </div>
+  </footer>
+  <noscript><p>This page needs JavaScript to upload a photo and draw the tiles.</p></noscript>
+  <script>
+    const form = document.querySelector("#form");
+    const photoInput = document.querySelector("#photo");
+    const preview = document.querySelector("#preview");
+    const previewImg = document.querySelector("#preview-img");
+    const state = document.querySelector("#state");
+    const results = document.querySelector("#results");
+    const submit = document.querySelector("#submit");
+    let previewUrl = null;
+
+    photoInput.addEventListener("change", () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      const file = photoInput.files && photoInput.files[0];
+      if (!file) {
+        preview.hidden = true;
+        return;
+      }
+      previewUrl = URL.createObjectURL(file);
+      previewImg.src = previewUrl;
+      document.querySelector("#preview-name").textContent = file.name + " · " + file.type + " · " + file.size.toLocaleString("en-US") + " bytes, kept in this browser";
+      preview.hidden = false;
+    });
+
+    fetch("/api/meta").then(async (response) => {
+      if (!response.ok) throw new Error("Could not load settings");
+      const meta = await response.json();
+      document.querySelector("#cap").textContent = Math.round(meta.max_upload_bytes / (1024 * 1024)) + " MB";
+      document.querySelector("#fallback-model").textContent = meta.fallback_model;
+      const t = meta.thresholds;
+      document.querySelector("#cutoffs").textContent =
+        "Amber when confidence is below " + formatNum(t.confidence_min) +
+        ", or when P(yes) is from " + formatNum(t.uncertain_low) +
+        " through " + formatNum(t.uncertain_high) +
+        " inclusive. A decisive yes needs P(yes) above " + formatNum(t.uncertain_high) +
+        ". Every cut-off is at most 0.99, because P(yes) never goes above 0.99.";
+      document.querySelector("#key-status").textContent = meta.live_key_set
+        ? "GEMINI_API_KEY is set on this server. Live mode will call " + meta.model + " at resolution " + meta.image_resolution + "."
+        : "This server has no GEMINI_API_KEY. Live mode will refuse and will not invent a result.";
+    }).catch(() => {
+      document.querySelector("#key-status").textContent = "Could not read server settings.";
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const file = photoInput.files && photoInput.files[0];
+      clear(state);
+      if (!file) {
+        showNotice(state, "Choose a photo first.", "error");
+        return;
+      }
+      const mode = new FormData(form).get("mode");
+      const body = new FormData();
+      body.set("photo", file);
+      body.set("mode", mode);
+      body.set("fallback", document.querySelector("#fallback").checked ? "1" : "0");
+      submit.disabled = true;
+      submit.textContent = "Running…";
+      results.replaceChildren();
+      showNotice(state, mode === "live" ? "Calling the model…" : "Loading the sample…", "");
+      try {
+        const response = await fetch("/api/check", { method: "POST", body });
+        const payload = await response.json().catch(() => null);
+        clear(state);
+        if (!response.ok) {
+          const detail = payload && payload.detail ? payload.detail : "The request failed.";
+          showNotice(state, detail, "error");
+          return;
+        }
+        render(payload);
+      } catch (error) {
+        clear(state);
+        showNotice(state, "The request did not finish: " + error.message, "error");
+      } finally {
+        submit.disabled = false;
+        submit.textContent = "Run 50 checks";
+      }
+    });
+
+    function render(payload) {
+      results.replaceChildren();
+      if (payload.sample_label) {
+        const banner = showNotice(results, "", "sample");
+        const title = document.createElement("strong");
+        title.textContent = payload.sample_label;
+        const rest = document.createElement("div");
+        rest.textContent = "These 50 probabilities are a fixed sample shipped with the app. They are not a reading of the photo you uploaded. Latency, input tokens, and cost were not measured.";
+        banner.append(title, rest);
+      }
+      if (payload.fallback_label) {
+        const banner = showNotice(results, "", "fallback");
+        const title = document.createElement("strong");
+        title.textContent = payload.fallback_label;
+        banner.append(title);
+        if (payload.decisions_error) {
+          const extra = document.createElement("div");
+          extra.textContent = payload.decisions_error;
+          banner.append(extra);
+        }
+      }
+
+      const sheet = document.createElement("section");
+      sheet.className = "results";
+      const heading = document.createElement("h2");
+      heading.textContent = sourceTitle(payload) + " · " + payload.tiles.length + " tiles";
+      sheet.append(heading);
+
+      const stats = document.createElement("div");
+      stats.className = "stats";
+      stats.append(
+        stat("Latency", payload.timing.measured ? payload.timing.latency_ms.toFixed(1) + " ms" : "not measured"),
+        stat("Input tokens", payload.usage.measured && payload.usage.input_tokens != null ? Number(payload.usage.input_tokens).toLocaleString("en-US") : "not measured"),
+        stat("Cost", costText(payload))
+      );
+      sheet.append(stats);
+      const timing = document.createElement("p");
+      timing.className = "note";
+      timing.textContent = payload.timing.note;
+      const usage = document.createElement("p");
+      usage.className = "note";
+      usage.textContent = payload.usage.note;
+      sheet.append(timing, usage);
+
+      const legend = document.createElement("div");
+      legend.className = "legend";
+      legend.append(pill("green", "Looks good · " + payload.summary.green), pill("red", "Looks bad · " + payload.summary.red), pill("amber", "Look again · " + payload.summary.amber));
+      sheet.append(legend);
+
+      const photo = document.createElement("p");
+      photo.className = "note";
+      photo.textContent = payload.photo.sent_to_model
+        ? "Sent " + payload.photo.byte_size.toLocaleString("en-US") + " bytes of " + payload.photo.mime_type + ". The server did not store the file."
+        : "Accepted " + payload.photo.byte_size.toLocaleString("en-US") + " bytes of " + payload.photo.mime_type + " and did not send them to a model. The server did not store the file.";
+      sheet.append(photo);
+
+      let category = null;
+      let grid = null;
+      payload.tiles.forEach((tile) => {
+        if (tile.category !== category) {
+          category = tile.category;
+          const group = document.createElement("section");
+          group.className = "group";
+          const h2 = document.createElement("h2");
+          h2.textContent = category;
+          grid = document.createElement("div");
+          grid.className = "tiles";
+          group.append(h2, grid);
+          sheet.append(group);
+        }
+        grid.append(renderTile(tile, payload.thresholds));
+      });
+      results.append(sheet);
+    }
+
+    function renderTile(tile, thresholds) {
+      const card = document.createElement("article");
+      card.className = "tile " + tile.status;
+      const status = pill(tile.status, tile.status === "amber" ? "Look again" : tile.reason);
+      const title = document.createElement("h3");
+      title.textContent = tile.label;
+      const question = document.createElement("p");
+      question.textContent = tile.instructions;
+      const nums = document.createElement("div");
+      nums.className = "nums";
+      const pYes = document.createElement("span");
+      pYes.textContent = "P(yes) " + formatNum(tile.p_yes);
+      const conf = document.createElement("span");
+      conf.textContent = "conf " + formatNum(tile.confidence);
+      nums.append(pYes, conf);
+      const meter = document.createElement("div");
+      meter.className = "meter";
+      const band = document.createElement("span");
+      band.className = "band";
+      band.style.left = (thresholds.uncertain_low * 100) + "%";
+      band.style.width = ((thresholds.uncertain_high - thresholds.uncertain_low) * 100) + "%";
+      meter.append(band);
+      if (tile.p_yes != null) {
+        const mark = document.createElement("span");
+        mark.className = "mark";
+        mark.style.left = (tile.p_yes * 100) + "%";
+        meter.append(mark);
+      }
+      const flag = document.createElement("div");
+      flag.className = "yes-flag";
+      flag.textContent = tile.yes_is_good ? "A yes is a good sign" : "A yes is a problem";
+      card.append(status, title, question, nums, meter);
+      if (tile.status === "amber") {
+        const why = document.createElement("p");
+        why.textContent = tile.reason;
+        card.append(why);
+      }
+      card.append(flag);
+      return card;
+    }
+
+    function stat(label, value) {
+      const box = document.createElement("div");
+      box.className = "stat";
+      const span = document.createElement("span");
+      span.textContent = label;
+      const strong = document.createElement("strong");
+      strong.textContent = value;
+      box.append(span, strong);
+      return box;
+    }
+
+    function pill(kind, text) {
+      const node = document.createElement("span");
+      node.className = "pill " + kind;
+      node.textContent = text;
+      return node;
+    }
+
+    function costText(payload) {
+      if (payload.source === "fallback") return "not computed";
+      if (payload.usage.cost_usd == null) return "not measured";
+      return "US$" + payload.usage.cost_usd;
+    }
+
+    function sourceTitle(payload) {
+      if (payload.source === "replay") return "Replay";
+      if (payload.source === "fallback") return "Fallback";
+      return "Decisions API";
+    }
+
+    function formatNum(value) {
+      if (value == null || Number.isNaN(Number(value))) return "—";
+      return Number(value).toFixed(2);
+    }
+
+    function showNotice(parent, text, kind) {
+      const node = document.createElement("div");
+      node.className = "notice" + (kind ? " " + kind : "");
+      node.setAttribute("role", kind === "error" ? "alert" : "status");
+      if (text) node.textContent = text;
+      parent.append(node);
+      return node;
+    }
+
+    function clear(node) {
+      node.replaceChildren();
+    }
+  </script>
+</body>
+</html>

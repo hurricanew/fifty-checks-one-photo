@@ -1,0 +1,21 @@
+{
+  "model": "gemini-decision-1",
+  "api_version": "v1beta",
+  "image_resolution": "medium",
+  "max_upload_bytes": 10485760,
+  "allowed_mime_types": [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/heic",
+    "image/heif"
+  ],
+  "input_usd_per_million": 0.1,
+  "thresholds": {
+    "confidence_min": 0.7,
+    "uncertain_low": 0.4,
+    "uncertain_high": 0.6
+  },
+  "fallback_enabled": true,
+  "fallback_model": "gemini-3.5-flash"
+}
