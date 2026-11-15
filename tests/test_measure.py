@@ -88,6 +88,31 @@ def test_measure_refuses_without_gemini_api_key(tmp_path):
     assert not (ROOT / "evidence" / "measurements.json").exists()
 
 
+def test_refresh_sample_refuses_without_a_key(tmp_path):
+    env = os.environ.copy()
+    env.pop("GEMINI_API_KEY", None)
+    output = tmp_path / "sample_response.json"
+    output.write_text("sentinel", encoding="utf-8")
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "refresh_sample.py"),
+            str(ROOT / "photos" / "portrait-wavy-hair.jpg"),
+            "--output",
+            str(output),
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 2
+    assert "GEMINI_API_KEY" in result.stderr
+    assert "will not fabricate" in result.stderr
+    assert output.read_text(encoding="utf-8") == "sentinel"
+
+
 def test_help_does_not_require_a_key():
     env = os.environ.copy()
     env.pop("GEMINI_API_KEY", None)

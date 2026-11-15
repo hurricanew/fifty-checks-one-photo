@@ -19,7 +19,8 @@ from app.decisions import (
     parse_fallback_payload,
     parse_fallback_usage,
 )
-from app.labels import FALLBACK_LABEL, SAMPLE_LABEL
+from app.labels import FALLBACK_LABEL, RECORDED_LABEL, SAMPLE_LABEL
+from app.sample_data import ReplaySource
 from app.tiles import classify
 
 MISSING_KEY_MESSAGE = (
@@ -97,6 +98,7 @@ def evaluate(
         usage=usage,
         latency_ms=latency_ms,
         sample_label=None,
+        recorded_label=None,
         fallback_label=None,
         sent_to_model=True,
         timing_note="time.perf_counter() around client.decisions.create only.",
@@ -106,25 +108,45 @@ def evaluate(
 
 
 def _replay(image, mime_type, checks, settings, sample_answers) -> dict:
-    missing = [check.key for check in checks if check.key not in sample_answers]
+    if isinstance(sample_answers, ReplaySource):
+        answers = sample_answers.answers
+        kind = sample_answers.kind
+    else:
+        answers = sample_answers
+        kind = "sample"
+    missing = [check.key for check in checks if check.key not in answers]
     if missing:
         raise CallFailed("The sample file is missing answers for: " + ", ".join(missing[:5]))
+    if kind == "recorded" and isinstance(sample_answers, ReplaySource):
+        usage_note = (
+            "Not measured on this upload. Replay did not call the API. "
+            f"The saved file recorded {sample_answers.latency_ms:.1f} ms, "
+            f"{sample_answers.input_tokens} input tokens, and US${sample_answers.cost_usd} "
+            "on an earlier live call. Those figures are not for the photo you just chose."
+        )
+        sample_label = None
+        recorded_label = RECORDED_LABEL
+    else:
+        usage_note = (
+            "Not measured. The sample file has no token counts, and this app will not invent them."
+        )
+        sample_label = SAMPLE_LABEL
+        recorded_label = None
     return _payload(
         source="replay",
         image=image,
         mime_type=mime_type,
         checks=checks,
         settings=settings,
-        answers=sample_answers,
+        answers=answers,
         usage=ParsedUsage(None, None),
         latency_ms=None,
-        sample_label=SAMPLE_LABEL,
+        sample_label=sample_label,
+        recorded_label=recorded_label,
         fallback_label=None,
         sent_to_model=False,
         timing_note="Not measured. Replay does not call the API.",
-        usage_note=(
-            "Not measured. The sample file has no token counts, and this app will not invent them."
-        ),
+        usage_note=usage_note,
         decisions_error=None,
     )
 
@@ -176,6 +198,7 @@ def _fallback(client, checks, image, mime_type, settings, decisions_exc) -> dict
         usage=usage,
         latency_ms=latency_ms,
         sample_label=None,
+        recorded_label=None,
         fallback_label=FALLBACK_LABEL,
         sent_to_model=True,
         timing_note=(
@@ -212,6 +235,7 @@ def _payload(
     usage: ParsedUsage,
     latency_ms,
     sample_label,
+    recorded_label,
     fallback_label,
     sent_to_model,
     timing_note,
@@ -252,6 +276,7 @@ def _payload(
         "source": source,
         "model": settings.fallback_model if source == "fallback" else settings.model,
         "sample_label": sample_label,
+        "recorded_label": recorded_label,
         "fallback_label": fallback_label,
         "decisions_error": decisions_error,
         "photo": {

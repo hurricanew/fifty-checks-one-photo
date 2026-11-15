@@ -1,4 +1,4 @@
-"""Load and validate the 50 rack checks."""
+"""Load and validate the 50 photo-quality checks."""
 
 from __future__ import annotations
 
@@ -18,12 +18,14 @@ REQUIRED_FIELDS = (
     "yes_is_good",
 )
 CATEGORIES = (
-    "Cables",
-    "Airflow",
-    "Labels",
-    "Doors and mounting",
-    "Indicators",
-    "Surroundings",
+    "Light",
+    "Focus",
+    "Faces & eyes",
+    "Expressions",
+    "Framing",
+    "Background",
+    "Colour",
+    "Profile-picture fit",
 )
 NEGATED_RE = re.compile(r"\b(no|not)\b|n't", re.IGNORECASE)
 

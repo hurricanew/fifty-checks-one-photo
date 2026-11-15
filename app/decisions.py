@@ -13,7 +13,8 @@ from app.checks import Check
 from app.config import Settings
 
 INPUT_TEXT = (
-    "Phone photo of a server rack. Judge each question only from what is visible in this photo."
+    "Photo of a person or a couple. Judge the photograph only: light, focus, framing, "
+    "and the other visible qualities in each question. Do not rate anyone's appearance."
 )
 
 FALLBACK_SCHEMA = {
@@ -77,7 +78,8 @@ def build_decision_request(checks: list[Check], image: bytes, mime_type: str, se
 
 def build_fallback_prompt(checks: list[Check]) -> str:
     lines = [
-        "You are scoring one phone photo of a server rack.",
+        "You are scoring one photo of a person or a couple.",
+        "Judge the photograph only. Do not rate anyone's appearance.",
         "For every key, return noul as your probability that the answer is yes, from 0.01 to 0.99,",
         "and confidence as your own uncalibrated self-rating from 0 to 1.",
         "This confidence is not a calibrated probability.",

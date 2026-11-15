@@ -195,7 +195,7 @@
     <div class="wrap">
       <p class="eyebrow">One photo, one API call</p>
       <h1>50 checks on one photo</h1>
-      <p class="lede">Upload one phone photo of a server rack. Replay mode shows a fixed sample so you can see the tiles without a key. Live mode sends that photo once to Gemini Decision 1 and asks fifty yes/no questions in the same call. Green means the check looks good, red means it looks bad, amber means a person should look.</p>
+      <p class="lede">Upload a photo of a person or a couple. Replay shows a fixed sample so you can see the tiles without a key. Live mode sends that photo once to Gemini Decision 1 and asks fifty yes/no questions about the photograph in the same call. Green means that check looks good, red means it is worth another try, amber means have another look. The checks never rate how anyone looks.</p>
     </div>
   </header>
   <main>
@@ -203,8 +203,9 @@
       <section class="panel">
         <form id="form">
           <label class="drop" for="photo">
-            <strong>Rack photo</strong>
-            <div class="hint">JPEG, PNG, WebP, HEIC, or HEIF. The server reads it in memory and does not store it. Cap is <span id="cap">10 MB</span>.</div>
+            <strong>Photo of a person or a couple</strong>
+            <div class="hint privacy">Your photo is checked in memory and never stored or logged. We only look at the photo, never rate how anyone looks.</div>
+            <div class="hint">JPEG, PNG, WebP, HEIC, or HEIF. Cap is <span id="cap">10 MB</span>.</div>
             <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" required>
           </label>
           <div class="preview" id="preview" hidden>
@@ -215,7 +216,7 @@
             <label><input type="radio" name="mode" value="replay" checked> Replay sample</label>
             <label><input type="radio" name="mode" value="live"> Live Decisions API</label>
           </div>
-          <p class="hint" id="replay-copy">Replay loads a fixed file labelled <strong>SAMPLE - not a real API result</strong>. It does not call the API, it does not score your photo, and it has no measured latency, tokens, or cost.</p>
+          <p class="hint" id="replay-copy">Replay loads a fixed file labelled <strong>SAMPLE - not a real API result</strong>. It does not call the API, it does not score your photo, and it has no measured latency, tokens, or cost. Run <code>scripts/refresh_sample.py</code> later if you want that file to come from a real call.</p>
           <p class="hint" id="key-status">Checking whether this server has a key…</p>
           <p class="hint" id="limits">Live calls are rate limited. Replay is not.</p>
           <label class="fallback">
@@ -232,7 +233,7 @@
   </main>
   <footer>
     <div class="wrap">
-      <p>Tile colors are a reading of P(yes) and confidence against the cut-offs on this page. They are not a measured accuracy score. Google's free tier may use submitted photos to improve its products; use the paid tier, or only photos you are willing to submit. Demo photos in <code>photos/</code> are credited in <code>photos/ATTRIBUTION.md</code>.</p>
+      <p>Tile colors are a reading of P(yes) and confidence against the cut-offs on this page. They judge the photograph, not the person. They are not a measured accuracy score. Google's free tier may use submitted photos to improve its products; use the paid tier, or only photos you are willing to submit. Demo photos in <code>photos/</code> are credited in <code>photos/ATTRIBUTION.md</code>.</p>
     </div>
   </footer>
   <noscript><p>This page needs JavaScript to upload a photo and draw the tiles.</p></noscript>
@@ -320,6 +321,14 @@
 
     function render(payload) {
       results.replaceChildren();
+      if (payload.recorded_label) {
+        const banner = showNotice(results, "", "sample");
+        const title = document.createElement("strong");
+        title.textContent = payload.recorded_label;
+        const rest = document.createElement("div");
+        rest.textContent = payload.usage.note;
+        banner.append(title, rest);
+      }
       if (payload.sample_label) {
         const banner = showNotice(results, "", "sample");
         const title = document.createElement("strong");
@@ -364,7 +373,7 @@
 
       const legend = document.createElement("div");
       legend.className = "legend";
-      legend.append(pill("green", "Looks good · " + payload.summary.green), pill("red", "Looks bad · " + payload.summary.red), pill("amber", "Look again · " + payload.summary.amber));
+      legend.append(pill("green", "Looking good · " + payload.summary.green), pill("red", "Worth another try · " + payload.summary.red), pill("amber", "Look again · " + payload.summary.amber));
       sheet.append(legend);
 
       const photo = document.createElement("p");

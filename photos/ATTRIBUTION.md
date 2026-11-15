@@ -1,23 +1,16 @@
 # Photo attribution
 
-These four files are server-rack photographs from Wikimedia Commons. Licenses were checked against the Commons API on 15 November 2026 (`prop=imageinfo`, `extmetadata.LicenseShortName`). They are included so `scripts/measure.py` has a folder to point at, and so a person can try the page. This repository has not run them through the model, so nothing here claims what the 50 checks would return.
+These four files are posed photographs of adults from Wikimedia Commons: one studio portrait, one portrait of two people, and two couple photographs. Licenses were checked against the Commons API on 15 November 2026 (`prop=imageinfo`, `extmetadata.LicenseShortName`). They are here so `scripts/measure.py` and `scripts/refresh_sample.py` have a folder to point at. This repository has not run them through the model.
 
-No photo was modified except that two large originals were saved from Wikimedia's scaled rendition instead of the full-resolution file.
+No photo was modified except that the Wellcome couple file was saved from Wikimedia's scaled rendition instead of the 3.3 MB original.
 
-| File | Author | License | Source |
-| --- | --- | --- | --- |
-| `cray-xe6-front.jpg` | Derrick Coetzee | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | [Front of open Hopper Cray XE6 rack](https://commons.wikimedia.org/wiki/File:Front_of_open_Hopper_Cray_XE6_rack.jpg) |
-| `compaq-rack-jemimus.jpg` | Jemimus | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Compaq server rack - IMG 0146](https://commons.wikimedia.org/wiki/File:Compaq_server_rack_-_IMG_0146.jpg), also [Flickr](https://www.flickr.com/photos/12967790@N00/28522656/) |
-| `datacenter-racks-carl-lender.jpg` | Carl Lender | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Datacenter Server Racks (22370909788)](https://commons.wikimedia.org/wiki/File:Datacenter_Server_Racks_(22370909788).jpg), also [Flickr](https://flickr.com/photos/43547797@N00/22370909788) |
-| `ibm-bladecenter-jemimus.jpg` | Jemimus | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [IBM rack server servers bladecenter exp 400 - IMG 1686](https://commons.wikimedia.org/wiki/File:IBM_rack_server_servers_bladecenter_exp_400_-_IMG_1686.jpg), also [Flickr](https://www.flickr.com/photos/12967790@N00/196872502/) |
+| File | Who is shown | Author | License | Source |
+| --- | --- | --- | --- | --- |
+| `portrait-wavy-hair.jpg` | One adult, studio portrait, 1930s | freeparking | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Vintage studio portrait woman with wavy hair](https://commons.wikimedia.org/wiki/File:Vintage_studio_portrait_woman_with_wavy_hair.jpg) |
+| `portrait-two-men.jpg` | Two adults, posed, 1934 | Tudor Washington Collins; attribution: Auckland Museum | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | [Three quarter length portrait of two men in suits (AM 80203-1)](https://commons.wikimedia.org/wiki/File:Three_quarter_length_portrait_of_two_men_in_suits_(AM_80203-1).jpg) |
+| `couple-pat-loredana.jpg` | Pat Krimson and Loredana De Amicis, 2022 | Patrick Claesen | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | [Pat Krimson & Loredana De Amicis](https://commons.wikimedia.org/wiki/File:Pat_Krimson_%26_Loredana_De_Amicis.jpeg), via wikiportret.nl |
+| `couple-umbrella-wellcome.jpg` | An adult couple walking arm in arm, photographic reproduction of a 1905 print | Wellcome Library, London | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | [An elegantly dressed couple walk arm in arm under an umbrella](https://commons.wikimedia.org/wiki/File:An_elegantly_dressed_couple_walk_arm_in_arm_under_an_umbrell_Wellcome_V0039050.jpg) |
 
-Details:
+`couple-umbrella-wellcome.jpg` is a Wikimedia scaled rendition (1920×2504), not the 2480×3234 original.
 
-- `cray-xe6-front.jpg` is the original JPEG (2502×3753). The Commons description includes Derrick Coetzee's CC0 waiver. The file's own metadata says "All rights waived under CC0 Waiver".
-- `compaq-rack-jemimus.jpg` is the original JPEG (1600×1200), taken 25 July 2005.
-- `datacenter-racks-carl-lender.jpg` is a Wikimedia scaled rendition (1920×1280), not the 6000×4000 original. Taken 4 November 2015.
-- `ibm-bladecenter-jemimus.jpg` is a Wikimedia scaled rendition (1920×2560), not the 2304×3072 original. Taken 21 July 2006.
-
-CC BY 2.0 requires attribution, which this file records. CC0 does not, and Derrick Coetzee is named anyway.
-
-To add another photo, put a JPEG, PNG, WebP, HEIC, or HEIF in this folder and add a row above. Only commit files whose license allows reuse (CC0 or CC-BY, or another license you have the right to use) and record the author, license, and source here.
+These are public, posed pictures. None is a photo of a child, and none is a private unposed moment.

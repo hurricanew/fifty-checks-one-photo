@@ -17,6 +17,38 @@ PNG = base64.b64decode(
 JPEG = b"\xff\xd8\xff\xe0" + b"\x00" * 32
 
 
+def test_upload_bytes_are_not_logged_or_written(monkeypatch, caplog):
+    import logging
+
+    marker = b"UNIQUEPHOTOMARKER12345"
+    blob = JPEG + marker
+    printed = []
+
+    def spy_print(*args, **_kwargs):
+        printed.append(" ".join(str(arg) for arg in args))
+
+    monkeypatch.setattr("builtins.print", spy_print)
+    caplog.set_level(logging.DEBUG)
+    client = TestClient(create_app())
+    before = _tree(ROOT)
+    response = client.post(
+        "/api/check",
+        files={"photo": ("person.jpg", blob, "image/jpeg")},
+        data={"mode": "replay", "fallback": "0"},
+    )
+    assert response.status_code == 200
+    marker_text = marker.decode()
+    assert marker_text not in response.text
+    assert marker_text not in caplog.text
+    assert all(marker_text not in line for line in printed)
+    assert _tree(ROOT) == before
+    for path in (ROOT / "app").rglob("*.py"):
+        source = path.read_text(encoding="utf-8")
+        assert "logging." not in source
+        assert "print(" not in source
+        assert "write_bytes" not in source
+
+
 def test_page_and_meta_describe_the_sample_and_the_fifty_checks(monkeypatch):
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
     client = TestClient(create_app())
@@ -24,6 +56,10 @@ def test_page_and_meta_describe_the_sample_and_the_fifty_checks(monkeypatch):
     assert page.status_code == 200
     assert "50 checks on one photo" in page.text
     assert SAMPLE_LABEL in page.text
+    assert (
+        "Your photo is checked in memory and never stored or logged. "
+        "We only look at the photo, never rate how anyone looks."
+    ) in page.text
     meta = client.get("/api/meta").json()
     assert meta["checks"] == 50
     assert meta["live_key_set"] is False
@@ -129,7 +165,7 @@ def test_live_call_times_only_the_client_and_prices_input_tokens(monkeypatch):
             answers = {
                 check.key: _Answer(0.91, 0.9) for check in app.state.checks
             }
-            answers["loose_cables_on_floor"] = _Answer(0.11, 0.88)
+            answers["red_eye"] = _Answer(0.11, 0.88)
             return _Result(answers, 2500, 0)
 
     class Client:

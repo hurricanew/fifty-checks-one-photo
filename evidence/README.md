@@ -7,4 +7,4 @@
 
 Those files are gitignored. This directory is empty of measurements on purpose. Latency, token counts, and dollar cost are recorded only when `GEMINI_API_KEY` is set and the script completes live calls. The script exits before writing anything when the key is missing, and it does not fill these files with sample numbers.
 
-Replay mode and `data/sample_response.json` are labelled `SAMPLE - not a real API result` and are not measurements.
+Replay mode ships with `data/sample_response.json` labelled `SAMPLE - not a real API result`. That file is not a measurement. `scripts/refresh_sample.py` can replace it with one real call; until then, do not treat it as one.

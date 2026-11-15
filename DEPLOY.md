@@ -5,12 +5,12 @@ One container. Photos are read into memory and are not written to disk. The proc
 ## Build
 
 ```bash
-docker build -t rack-checks .
+docker build -t photo-checks .
 docker run --rm -p 8080:8080 \
   -e PORT=8080 \
   -e TRUST_PROXY=1 \
   -e GEMINI_API_KEY \
-  rack-checks
+  photo-checks
 ```
 
 `GEMINI_API_KEY` must be a host secret. Do not put it in the Dockerfile, a build arg, a committed `.env`, or the image. The image has no key in it.

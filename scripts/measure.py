@@ -36,7 +36,7 @@ REFUSAL = (
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--photos", type=Path, required=True, help="Folder of rack photos")
+    parser.add_argument("--photos", type=Path, required=True, help="Folder of people photos")
     parser.add_argument("--calls", type=int, required=True, help="Number of live API calls to make")
     parser.add_argument(
         "--resolution",

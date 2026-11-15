@@ -1,253 +1,253 @@
 {
   "label": "SAMPLE - not a real API result",
-  "note": "Hand-written probabilities for replay mode. They are not an analysis of any photo. Latency, input tokens, and cost were not measured and are omitted on purpose.",
+  "note": "Hand-written probabilities so replay can draw tiles. They are not a model reading of any photo. Latency, input tokens, and cost were not measured and are omitted on purpose. Replace this file by running scripts/refresh_sample.py with a real key.",
   "answers": {
-    "vertical_managers": {
+    "even_light": {
       "type": "noul",
       "noul": 0.93,
       "confidence": 0.91
     },
-    "horizontal_managers": {
+    "balanced_exposure": {
       "type": "noul",
       "noul": 0.08,
       "confidence": 0.87
     },
-    "cables_in_managers": {
+    "faces_lit": {
       "type": "noul",
       "noul": 0.5,
       "confidence": 0.95
     },
-    "bundles_strapped": {
+    "harsh_backlight": {
       "type": "noul",
       "noul": 0.96,
       "confidence": 0.42
     },
-    "gentle_bends": {
+    "blown_highlights": {
       "type": "noul",
       "noul": 0.4,
       "confidence": 0.8
     },
-    "power_data_separated": {
+    "crushed_shadows": {
       "type": "noul",
       "noul": 0.61,
       "confidence": 0.77
     },
-    "connectors_seated": {
+    "catchlights": {
       "type": "noul",
       "noul": 0.39,
       "confidence": 0.84
     },
-    "patch_cords_dressed": {
+    "nice_and_sharp": {
       "type": "noul",
       "noul": 0.7,
       "confidence": 0.7
     },
-    "spare_length_managed": {
+    "eyes_sharp": {
       "type": "noul",
       "noul": 0.12,
       "confidence": 0.69
     },
-    "loose_cables_on_floor": {
+    "motion_blur": {
       "type": "noul",
       "noul": 0.88,
       "confidence": 0.81
     },
-    "hanging_loops": {
+    "camera_shake": {
       "type": "noul",
       "noul": 0.05,
       "confidence": 0.93
     },
-    "cables_cover_intakes": {
+    "focus_on_people": {
       "type": "noul",
       "noul": 0.99,
       "confidence": 0.99
     },
-    "blanking_panels": {
+    "everyone_sharp": {
       "type": "noul",
       "noul": 0.6,
       "confidence": 0.9
     },
-    "open_front_gaps": {
+    "eyes_open": {
       "type": "noul",
       "noul": 0.41,
       "confidence": 0.55
     },
-    "intakes_clear": {
+    "looking_at_camera": {
       "type": "noul",
       "noul": 0.72,
       "confidence": 0.66
     },
-    "items_stored_in_rack": {
+    "red_eye": {
       "type": "noul",
       "noul": 0.93,
       "confidence": 0.91
     },
-    "bezels_installed": {
+    "mid_blink": {
       "type": "noul",
       "noul": 0.08,
       "confidence": 0.87
     },
-    "empty_bays_filled": {
+    "glasses_glare": {
       "type": "noul",
       "noul": 0.5,
       "confidence": 0.95
     },
-    "mesh_or_perforated_door": {
+    "faces_forward": {
       "type": "noul",
       "noul": 0.96,
       "confidence": 0.42
     },
-    "side_panel_installed": {
+    "eyes_clear": {
       "type": "noul",
       "noul": 0.4,
       "confidence": 0.8
     },
-    "rack_id_label": {
+    "relaxed_smile": {
       "type": "noul",
       "noul": 0.61,
       "confidence": 0.77
     },
-    "unit_labels": {
+    "at_ease": {
       "type": "noul",
       "noul": 0.39,
       "confidence": 0.84
     },
-    "patch_port_labels": {
+    "shared_mood": {
       "type": "noul",
       "noul": 0.7,
       "confidence": 0.7
     },
-    "cable_labels": {
+    "squinting": {
       "type": "noul",
       "noul": 0.12,
       "confidence": 0.69
     },
-    "pdu_label": {
+    "easy_expression": {
       "type": "noul",
       "noul": 0.88,
       "confidence": 0.81
     },
-    "u_position_marks": {
+    "cut_off_edge": {
       "type": "noul",
       "noul": 0.05,
       "confidence": 0.93
     },
-    "front_door_present": {
+    "head_cropped": {
       "type": "noul",
       "noul": 0.99,
       "confidence": 0.99
     },
-    "front_door_closed": {
+    "upright_background": {
       "type": "noul",
       "noul": 0.6,
       "confidence": 0.9
     },
-    "door_latch_closed": {
+    "balanced_placement": {
       "type": "noul",
       "noul": 0.41,
       "confidence": 0.55
     },
-    "equipment_on_rails": {
+    "room_above_head": {
       "type": "noul",
       "noul": 0.72,
       "confidence": 0.66
     },
-    "rail_fasteners_visible": {
+    "face_large_enough": {
       "type": "noul",
       "noul": 0.93,
       "confidence": 0.91
     },
-    "fronts_flush": {
+    "square_crop": {
       "type": "noul",
       "noul": 0.08,
       "confidence": 0.87
     },
-    "rack_upright": {
+    "camera_tilt": {
       "type": "noul",
       "noul": 0.5,
       "confidence": 0.95
     },
-    "pdu_mounted": {
+    "space_around": {
       "type": "noul",
       "noul": 0.96,
       "confidence": 0.42
     },
-    "status_leds_visible": {
+    "shoulders_in": {
       "type": "noul",
       "noul": 0.4,
       "confidence": 0.8
     },
-    "green_led_lit": {
+    "tidy_background": {
       "type": "noul",
       "noul": 0.61,
       "confidence": 0.77
     },
-    "red_fault_led_lit": {
+    "busy_background": {
       "type": "noul",
       "noul": 0.39,
       "confidence": 0.84
     },
-    "amber_warning_led_lit": {
+    "object_on_head": {
       "type": "noul",
       "noul": 0.7,
       "confidence": 0.7
     },
-    "link_leds_visible": {
+    "photobomber": {
       "type": "noul",
       "noul": 0.12,
       "confidence": 0.69
     },
-    "dark_equipment_face": {
+    "lens_flare": {
       "type": "noul",
       "noul": 0.88,
       "confidence": 0.81
     },
-    "floor_clear": {
+    "clutter_behind": {
       "type": "noul",
       "noul": 0.05,
       "confidence": 0.93
     },
-    "liquid_visible": {
+    "stands_out": {
       "type": "noul",
       "noul": 0.99,
       "confidence": 0.99
     },
-    "heavy_dust": {
+    "natural_colours": {
       "type": "noul",
       "noul": 0.6,
       "confidence": 0.9
     },
-    "cardboard_present": {
+    "colour_cast": {
       "type": "noul",
       "noul": 0.41,
       "confidence": 0.55
     },
-    "tools_left_behind": {
+    "harsh_saturation": {
       "type": "noul",
       "noul": 0.72,
       "confidence": 0.66
     },
-    "aisle_clearance": {
+    "consistent_colour": {
       "type": "noul",
       "noul": 0.93,
       "confidence": 0.91
     },
-    "overhead_tray": {
+    "white_balance": {
       "type": "noul",
       "noul": 0.08,
       "confidence": 0.87
     },
-    "raised_floor": {
+    "profile_square": {
       "type": "noul",
       "noul": 0.5,
       "confidence": 0.95
     },
-    "aisle_containment": {
+    "face_share": {
       "type": "noul",
       "noul": 0.96,
       "confidence": 0.42
     },
-    "photo_is_rack": {
+    "clear_subject": {
       "type": "noul",
       "noul": 0.4,
       "confidence": 0.8

@@ -1,10 +1,10 @@
 # 50 checks on one photo
 
-Upload one phone photo of a server rack. The app asks [Gemini Decision 1](https://ai.google.dev/gemini-api/docs/decisions-api) fifty yes/no questions in a **single** Decisions API call, then paints one tile per check.
+Upload a photo of a person or a couple. The app asks [Gemini Decision 1](https://ai.google.dev/gemini-api/docs/decisions-api) fifty yes/no questions about the **photograph** in a **single** Decisions API call, then paints one tile per check. It does not rate how anyone looks.
 
-- **Green** — the check looks good.
-- **Red** — the check looks bad.
-- **Amber** — confidence is below the cut-off, or P(yes) sits in the uncertain band. A person should look.
+- **Green** — that part of the photo is looking good.
+- **Red** — that part is worth another try.
+- **Amber** — confidence is below the cut-off, or P(yes) sits in the uncertain band. Have another look.
 
 The page header shows three figures for that one call, and only when they were actually measured:
 
@@ -12,7 +12,7 @@ The page header shows three figures for that one call, and only when they were a
 - **Input tokens** — `usage.total_input_tokens` from the response.
 - **Cost** — `input_tokens * 0.10 / 1_000_000` US dollars. Output tokens are not billed on the Decisions API.
 
-This repo does not ship measured latency, token counts, or cost. Those files are written only by `scripts/measure.py` after live calls. Replay mode is a fixed sample and is labelled **SAMPLE - not a real API result** on the page and in `data/sample_response.json`.
+This repo does not ship measured latency, token counts, or cost. Those files are written only by `scripts/measure.py` after live calls. Replay mode loads `data/sample_response.json`, which is labelled **SAMPLE - not a real API result** until you replace it with `scripts/refresh_sample.py`. The upload is held in memory and is not stored or logged.
 
 ## Setup
 
@@ -32,9 +32,9 @@ uvicorn app.main:app --host 127.0.0.1 --port 8741
 
 Open http://127.0.0.1:8741
 
-Choose a photo, leave **Replay sample** selected, and submit. You get 50 tiles and the sample banner. Latency, tokens, and cost stay “not measured”.
+Choose a photo of a person or a couple, leave **Replay sample** selected, and submit. You get 50 tiles and the sample banner. Latency, tokens, and cost stay “not measured”.
 
-The server reads the upload into memory, checks the size and the MIME type against the file bytes, and does not write the photo to disk. The cap is 10,485,760 bytes. Accepted types are JPEG, PNG, WebP, HEIC, and HEIF.
+Your photo is checked in memory and never stored or logged. We only look at the photo, never rate how anyone looks. The cap is 10,485,760 bytes. Accepted types are JPEG, PNG, WebP, HEIC, and HEIF.
 
 ## Environment variables
 
@@ -82,7 +82,7 @@ No US dollar figure is shown for the fallback. The Decisions input-only formula 
 
 Every cut-off must be at most **0.99**. The Decisions API keeps P(yes) in the closed range 0.01–0.99, so a threshold above 0.99 can never match. The loader rejects a higher cut-off. If you set `uncertain_high` to `0.99`, a decisive yes becomes impossible, because 0.99 is inside the inclusive band. The shipped band ends at 0.60, so 0.61–0.99 can still be a decisive yes.
 
-Checks live in `data/checks.json`. Each one is a single visible question (cables, blanking, labels, doors, lights, floor, airflow) with a positive wording and a `yes_is_good` flag. A yes is not always a good sign: “Are loose cables lying on the floor?” is a problem when the answer is yes.
+Checks live in `data/checks.json`. Each one is a single visible question about the photograph (light, focus, eyes, expression, framing, background, colour, profile-picture fit) with a positive wording and a `yes_is_good` flag. A yes is not always a good sign: “Is red-eye visible?” is a problem when the answer is yes. None of the checks ask about attractiveness, body, age, or anything similar.
 
 ## Measure live calls
 
@@ -100,6 +100,14 @@ p50 and p95 use linear interpolation on the sorted successful latencies (the sam
 
 Without `GEMINI_API_KEY` the script exits with status 2, prints a refusal, and does not create or overwrite the output files.
 
+To replace the replay file with one real call:
+
+```bash
+GEMINI_API_KEY=your-key python scripts/refresh_sample.py photos/portrait-wavy-hair.jpg
+```
+
+That writes measured latency and token counts into `data/sample_response.json` and does not store the photo bytes. Without the key it refuses and leaves the sample file alone. The shipped file stays a labelled sample until you run that command.
+
 ## Tests
 
 ```bash
@@ -116,12 +124,13 @@ Tests stub the SDK. They do not call Google. A socket connect during a test rais
 
 ## Limitations
 
-- Nothing in this repository is a measured accuracy number. Tile colors are the cut-offs above applied to P(yes) and confidence. Those cut-offs are a starting point, not a threshold tuned on labeled rack photos. Green is not a certification that the rack is fine.
+- Nothing in this repository is a measured accuracy number. Tile colors are the cut-offs above applied to P(yes) and confidence. Those cut-offs are a starting point, not a threshold tuned on labeled portraits. Green means that one check looks fine. It is not a judgment of the person.
 - Latency, tokens, and cost in the UI are shown only when this process timed a call or read `usage` from a response. Replay leaves them blank on purpose. Do not copy the sample probabilities into a report.
 - The Decisions API returns calibrated probabilities for `gemini-decision-1`. The fallback model’s confidence is a self-rating from a normal generate call. It is not the same number, and that path bills output tokens.
 - P(yes) never exceeds 0.99. A rule written as “only above 0.99” will not fire.
-- The model only sees what is in the frame. A check about a door, a label, or the floor is amber or wrong when that part of the rack is cropped, dark, or too small. Questions are independent; one answer does not see the others.
-- One photo is not an inspection. This does not replace walking the row.
+- The checks judge the photograph only. They do not score attractiveness, body, age, gender, race, or anything similar.
+- The model only sees what is in the frame. A check about eyes or headroom is amber or wrong when that part of the photo is cropped, dark, or too small. Questions are independent; one answer does not see the others.
+- One photo is not a verdict. A red tile means that part of the picture is worth another try.
 - Google’s free tier for Gemini Decision 1 is marked “Used to improve our products: Yes” on the [pricing page](https://ai.google.dev/gemini-api/docs/pricing). The paid tier is marked “No”. Use the paid tier, or only photos you are willing to submit.
 - The paid input price used here is $0.10 per 1,000,000 input tokens for text, image, video, audio, and PDF, with output not billed. That matches the pricing page as checked on 15 November 2026. Shared input is billed once per request; each question still adds its own instruction and criteria tokens. If Google changes the price, change `app/cost.py` and `data/config.json` together. The loader refuses a price other than 0.10 so the displayed formula cannot drift silently.
 - This project was exercised in replay. It was not run against the live API here, because no `GEMINI_API_KEY` was available, and no latency or cost figure was filled in to stand in for that run.

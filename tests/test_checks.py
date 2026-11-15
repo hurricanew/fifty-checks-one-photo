@@ -1,4 +1,5 @@
 import json
+import re
 
 import pytest
 
@@ -65,6 +66,50 @@ def test_sample_file_is_labelled_and_has_no_measurements():
     for answer in raw["answers"].values():
         assert 0.01 <= answer["noul"] <= 0.99
         assert 0.0 <= answer["confidence"] <= 1.0
+
+
+FORBIDDEN_PERSON_TERMS = re.compile(
+    r"\b(attractive|beautiful|ugly|weight|fat|thin|skin|age|old|young|gender|race|ethnic|body)\b",
+    re.IGNORECASE,
+)
+
+
+def test_recorded_refresh_file_keeps_measured_figures_and_no_photo_bytes(tmp_path):
+    from app.sample_data import load_sample, write_recorded_sample
+
+    photo_name = "portrait-wavy-hair.jpg"
+    answers = {
+        "even_light": {"type": "noul", "noul": 0.8, "confidence": 0.7},
+    }
+    path = tmp_path / "sample_response.json"
+    write_recorded_sample(
+        path,
+        answers=answers,
+        latency_ms=123.4,
+        input_tokens=1000,
+        output_tokens=0,
+        photo_name=photo_name,
+        model="gemini-decision-1",
+        image_resolution="medium",
+    )
+    raw = path.read_text(encoding="utf-8")
+    assert "UNIQUE" not in raw
+    assert photo_name in raw
+    loaded = load_sample(path)
+    assert loaded.kind == "recorded"
+    assert loaded.latency_ms == 123.4
+    assert loaded.input_tokens == 1000
+    assert loaded.cost_usd == "0.00010000"
+    assert loaded.answers["even_light"].p_yes == 0.8
+
+
+def test_checks_judge_the_photo_not_the_person():
+    raw = json.loads(CHECKS_PATH.read_text(encoding="utf-8"))
+    fields = ("key", "label", "category", "instructions", "true_description", "false_description")
+    for check in raw:
+        for field in fields:
+            match = FORBIDDEN_PERSON_TERMS.search(str(check[field]))
+            assert match is None, f"{check['key']}.{field} contains {match.group()!r}"
 
 
 def test_shipped_cutoffs_are_at_most_0_99_and_the_price_is_the_documented_rate():

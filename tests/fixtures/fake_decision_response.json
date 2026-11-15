@@ -2,8 +2,8 @@
   "label": "SAMPLE - not a real API result",
   "note": "Hand-written parser fixture. These token figures exist only so tests can read the usage fields. They were not measured.",
   "answers": {
-    "vertical_managers": {"type": "noul", "noul": 0.91, "confidence": 0.9},
-    "loose_cables_on_floor": {"type": "noul", "noul": 0.22, "confidence": 0.8}
+    "even_light": {"type": "noul", "noul": 0.91, "confidence": 0.9},
+    "red_eye": {"type": "noul", "noul": 0.22, "confidence": 0.8}
   },
   "usage": {
     "total_input_tokens": 1500,

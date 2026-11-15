@@ -50,5 +50,5 @@ def classify(
     says_yes = p_value > thresholds.uncertain_high
     looks_good = says_yes if yes_is_good else not says_yes
     if looks_good:
-        return GREEN, "Looks good"
-    return RED, "Looks bad"
+        return GREEN, "Looking good"
+    return RED, "Worth another try"

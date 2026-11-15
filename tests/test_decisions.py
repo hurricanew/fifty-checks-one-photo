@@ -43,9 +43,9 @@ def test_parse_fake_response_file_reads_noul_and_input_tokens():
     raw = json.loads(FIXTURE.read_text(encoding="utf-8"))
     assert raw["label"] == SAMPLE_LABEL
     answers, usage = parse_decision_response(raw)
-    assert answers["vertical_managers"].p_yes == 0.91
-    assert answers["vertical_managers"].confidence == 0.9
-    assert answers["loose_cables_on_floor"].p_yes == 0.22
+    assert answers["even_light"].p_yes == 0.91
+    assert answers["even_light"].confidence == 0.9
+    assert answers["red_eye"].p_yes == 0.22
     assert usage.input_tokens == 1500
     assert usage.output_tokens == 0
     assert decisions_cost_usd(usage.input_tokens) == "0.00015000"
@@ -63,11 +63,11 @@ def test_parse_attribute_objects_the_sdk_would_return():
         total_output_tokens = 0
 
     class Result:
-        answers = {"vertical_managers": Answer(0.77, 0.81)}
+        answers = {"even_light": Answer(0.77, 0.81)}
         usage = Usage()
 
     answers, usage = parse_decision_response(Result())
-    assert answers["vertical_managers"].p_yes == 0.77
+    assert answers["even_light"].p_yes == 0.77
     assert usage.input_tokens == 2500
     assert decisions_cost_usd(2500) == "0.00025000"
 

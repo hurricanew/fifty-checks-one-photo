@@ -1,452 +1,452 @@
 [
   {
-    "key": "vertical_managers",
-    "category": "Cables",
-    "label": "Vertical managers",
+    "key": "even_light",
+    "category": "Light",
+    "label": "Even light",
     "yes_is_good": true,
-    "instructions": "Are vertical cable managers mounted along the side of the rack?",
-    "true_description": "A vertical manager, finger duct, or side trough is mounted on the rack.",
-    "false_description": "The visible rack side has no vertical cable manager."
+    "instructions": "Is the light on the faces fairly even?",
+    "true_description": "The faces are lit fairly evenly.",
+    "false_description": "One side of a face falls into a deep shadow while the other is bright."
   },
   {
-    "key": "horizontal_managers",
-    "category": "Cables",
-    "label": "Horizontal managers",
+    "key": "balanced_exposure",
+    "category": "Light",
+    "label": "Balanced exposure",
     "yes_is_good": true,
-    "instructions": "Are horizontal cable managers visible between pieces of equipment?",
-    "true_description": "A horizontal manager or bar is mounted between equipment units.",
-    "false_description": "Equipment is stacked with no horizontal cable manager between the units."
+    "instructions": "Is the exposure balanced, with detail in the bright areas and the dark areas?",
+    "true_description": "Bright areas and dark areas both keep visible detail.",
+    "false_description": "The frame is mostly washed out or mostly sunk into darkness."
   },
   {
-    "key": "cables_in_managers",
-    "category": "Cables",
-    "label": "Cables in managers",
+    "key": "faces_lit",
+    "category": "Light",
+    "label": "Faces are lit",
     "yes_is_good": true,
-    "instructions": "Do the visible data or power cables run through a manager, raceway, or finger duct?",
-    "true_description": "Visible cables pass through a manager, raceway, or finger duct.",
-    "false_description": "Visible cables run outside any manager or raceway."
+    "instructions": "Are the faces lit?",
+    "true_description": "The faces receive clear light.",
+    "false_description": "A face is left in shadow."
   },
   {
-    "key": "bundles_strapped",
-    "category": "Cables",
-    "label": "Bundles strapped",
-    "yes_is_good": true,
-    "instructions": "Are visible cable bundles held together with straps or ties?",
-    "true_description": "A visible bundle is held with velcro, straps, or ties.",
-    "false_description": "Visible bundles are loose, with nothing holding the cables together."
-  },
-  {
-    "key": "gentle_bends",
-    "category": "Cables",
-    "label": "Gentle bends",
-    "yes_is_good": true,
-    "instructions": "Do the visible cables bend in a smooth curve?",
-    "true_description": "Visible bends are smooth curves.",
-    "false_description": "A visible cable has a sharp crease or kink."
-  },
-  {
-    "key": "power_data_separated",
-    "category": "Cables",
-    "label": "Power and data split",
-    "yes_is_good": true,
-    "instructions": "Do power cables and data cables follow separate paths where both are visible?",
-    "true_description": "Power cables and data cables take different routes.",
-    "false_description": "Power and data cables share the same bundle or path."
-  },
-  {
-    "key": "connectors_seated",
-    "category": "Cables",
-    "label": "Connectors seated",
-    "yes_is_good": true,
-    "instructions": "Are the visible plugs fully inserted into their ports?",
-    "true_description": "Visible plugs sit fully in their ports.",
-    "false_description": "A visible plug is only partly inserted or is hanging out of its port."
-  },
-  {
-    "key": "patch_cords_dressed",
-    "category": "Cables",
-    "label": "Patch cords dressed",
-    "yes_is_good": true,
-    "instructions": "Do patch cords leave the panel along an orderly path?",
-    "true_description": "Patch cords leave the panel in a combed or managed path.",
-    "false_description": "Patch cords leave the panel in a tangled bunch."
-  },
-  {
-    "key": "spare_length_managed",
-    "category": "Cables",
-    "label": "Spare length managed",
-    "yes_is_good": true,
-    "instructions": "Is extra cable length coiled or strapped?",
-    "true_description": "Spare cable length is coiled or strapped.",
-    "false_description": "Spare cable length trails loose."
-  },
-  {
-    "key": "loose_cables_on_floor",
-    "category": "Cables",
-    "label": "Loose cables on the floor",
+    "key": "harsh_backlight",
+    "category": "Light",
+    "label": "Harsh backlight",
     "yes_is_good": false,
-    "instructions": "Are loose cables lying on the floor?",
-    "true_description": "One or more cables lie loose on the floor.",
-    "false_description": "The visible floor has no loose cables."
+    "instructions": "Is harsh backlight turning the faces into silhouettes?",
+    "true_description": "Strong backlight silhouettes a face.",
+    "false_description": "Backlight, if any, stays gentle."
   },
   {
-    "key": "hanging_loops",
-    "category": "Cables",
-    "label": "Hanging loops",
+    "key": "blown_highlights",
+    "category": "Light",
+    "label": "Blown highlights",
     "yes_is_good": false,
-    "instructions": "Do cables hang in unmanaged loops across the front of the equipment?",
-    "true_description": "Cables hang in unmanaged loops across the equipment face.",
-    "false_description": "Cables do not hang in unmanaged loops across the equipment face."
+    "instructions": "Are bright areas clipped to pure white?",
+    "true_description": "A bright area is clipped to pure white, with detail gone.",
+    "false_description": "Bright areas still hold detail."
   },
   {
-    "key": "cables_cover_intakes",
-    "category": "Cables",
-    "label": "Cables over intakes",
+    "key": "crushed_shadows",
+    "category": "Light",
+    "label": "Crushed shadows",
     "yes_is_good": false,
-    "instructions": "Do cables lie across equipment air intakes or bezels?",
-    "true_description": "Cables lie across an air intake or a bezel.",
-    "false_description": "Air intakes and bezels are free of cables lying across them."
+    "instructions": "Are dark areas crushed to solid black?",
+    "true_description": "A dark area is solid black, with detail gone.",
+    "false_description": "Dark areas still hold detail."
   },
   {
-    "key": "blanking_panels",
-    "category": "Airflow",
-    "label": "Blanking panels",
+    "key": "catchlights",
+    "category": "Light",
+    "label": "Catchlights",
     "yes_is_good": true,
-    "instructions": "Are empty front rack units covered by blanking panels?",
-    "true_description": "Empty front rack units are covered by blanking panels.",
-    "false_description": "An empty front rack unit is open, with no blanking panel."
+    "instructions": "Are small catchlights visible in the eyes?",
+    "true_description": "A small reflection of the light is visible in an eye.",
+    "false_description": "The eyes show no catchlight."
   },
   {
-    "key": "open_front_gaps",
-    "category": "Airflow",
-    "label": "Open front gaps",
+    "key": "nice_and_sharp",
+    "category": "Focus",
+    "label": "Nice and sharp",
+    "yes_is_good": true,
+    "instructions": "Is the main subject sharp?",
+    "true_description": "The main subject is sharp.",
+    "false_description": "The main subject is soft."
+  },
+  {
+    "key": "eyes_sharp",
+    "category": "Focus",
+    "label": "Sharp eyes",
+    "yes_is_good": true,
+    "instructions": "Are the eyes sharp?",
+    "true_description": "The eyes are sharp.",
+    "false_description": "The eyes are soft."
+  },
+  {
+    "key": "motion_blur",
+    "category": "Focus",
+    "label": "Motion blur",
     "yes_is_good": false,
-    "instructions": "Are open gaps visible in the front face of the rack?",
-    "true_description": "An open gap in the front face shows into or through the rack.",
-    "false_description": "The front face is filled by equipment or blanking panels."
+    "instructions": "Is motion blur visible on the people?",
+    "true_description": "A person is streaked by motion blur.",
+    "false_description": "The people are free of motion blur."
   },
   {
-    "key": "intakes_clear",
-    "category": "Airflow",
-    "label": "Intakes clear",
-    "yes_is_good": true,
-    "instructions": "Are the front air intakes free of paper, plastic, and boxes?",
-    "true_description": "Front air intakes are uncovered.",
-    "false_description": "Paper, plastic, or a box covers a front air intake."
-  },
-  {
-    "key": "items_stored_in_rack",
-    "category": "Airflow",
-    "label": "Items stored in the rack",
+    "key": "camera_shake",
+    "category": "Focus",
+    "label": "Camera shake",
     "yes_is_good": false,
-    "instructions": "Are boxes, bags, or loose pieces of equipment stored in the rack opening?",
-    "true_description": "A box, bag, or loose piece of equipment is stored in the rack opening.",
-    "false_description": "The rack opening holds only mounted equipment."
+    "instructions": "Does the whole frame look smeared?",
+    "true_description": "The whole frame is smeared, as from camera shake.",
+    "false_description": "The frame is steady."
   },
   {
-    "key": "bezels_installed",
-    "category": "Airflow",
-    "label": "Bezels installed",
+    "key": "focus_on_people",
+    "category": "Focus",
+    "label": "Focus on the people",
     "yes_is_good": true,
-    "instructions": "Are front bezels installed on the equipment?",
-    "true_description": "Equipment fronts have their bezels installed.",
-    "false_description": "An equipment front is missing its bezel."
+    "instructions": "Is the focus on the people rather than the background?",
+    "true_description": "Focus sits on the people.",
+    "false_description": "The background is sharp while the people are soft."
   },
   {
-    "key": "empty_bays_filled",
-    "category": "Airflow",
-    "label": "Empty bays filled",
+    "key": "everyone_sharp",
+    "category": "Focus",
+    "label": "Everyone sharp",
     "yes_is_good": true,
-    "instructions": "Do empty drive or module bays have blank fillers?",
-    "true_description": "Empty drive or module bays have blank fillers.",
-    "false_description": "An empty drive or module bay is open, with no filler."
+    "instructions": "Is every person in the frame sharp?",
+    "true_description": "Every person in the frame is sharp.",
+    "false_description": "One person is noticeably softer than the others."
   },
   {
-    "key": "mesh_or_perforated_door",
-    "category": "Airflow",
-    "label": "Mesh or perforated door",
+    "key": "eyes_open",
+    "category": "Faces & eyes",
+    "label": "Eyes open",
     "yes_is_good": true,
-    "instructions": "Is the front door mesh or perforated?",
-    "true_description": "The front door is mesh or perforated.",
-    "false_description": "The front door is a solid panel."
+    "instructions": "Are everyone's eyes open?",
+    "true_description": "Every visible pair of eyes is open.",
+    "false_description": "Someone's eyes are closed."
   },
   {
-    "key": "side_panel_installed",
-    "category": "Airflow",
-    "label": "Side panel installed",
+    "key": "looking_at_camera",
+    "category": "Faces & eyes",
+    "label": "Looking at the camera",
     "yes_is_good": true,
-    "instructions": "Is a side panel installed on the rack?",
-    "true_description": "A side panel is installed and closed.",
-    "false_description": "The rack side is open, with the panel removed."
+    "instructions": "Is everyone looking toward the camera?",
+    "true_description": "The people look toward the camera.",
+    "false_description": "Someone looks away from the camera."
   },
   {
-    "key": "rack_id_label",
-    "category": "Labels",
-    "label": "Rack ID label",
-    "yes_is_good": true,
-    "instructions": "Is a rack identification label readable on the frame or header?",
-    "true_description": "A rack identification label on the frame or header is readable.",
-    "false_description": "No readable rack identification label is visible on the frame or header."
-  },
-  {
-    "key": "unit_labels",
-    "category": "Labels",
-    "label": "Unit labels",
-    "yes_is_good": true,
-    "instructions": "Are asset or unit labels readable on the equipment faces?",
-    "true_description": "An asset or unit label on an equipment face is readable.",
-    "false_description": "Equipment faces have no readable asset or unit label."
-  },
-  {
-    "key": "patch_port_labels",
-    "category": "Labels",
-    "label": "Patch port labels",
-    "yes_is_good": true,
-    "instructions": "Are labels visible on patch panel ports?",
-    "true_description": "Patch panel ports have visible labels.",
-    "false_description": "Patch panel ports have no visible labels."
-  },
-  {
-    "key": "cable_labels",
-    "category": "Labels",
-    "label": "Cable labels",
-    "yes_is_good": true,
-    "instructions": "Are labels visible on cables near the connectors?",
-    "true_description": "A label is visible on a cable near a connector.",
-    "false_description": "Cables near the connectors have no visible labels."
-  },
-  {
-    "key": "pdu_label",
-    "category": "Labels",
-    "label": "PDU label",
-    "yes_is_good": true,
-    "instructions": "Is a readable label visible on a PDU or power strip?",
-    "true_description": "A PDU or power strip has a readable label.",
-    "false_description": "The visible PDU or power strip has no readable label."
-  },
-  {
-    "key": "u_position_marks",
-    "category": "Labels",
-    "label": "U position marks",
-    "yes_is_good": true,
-    "instructions": "Are rack-unit position marks visible on a rail?",
-    "true_description": "Rack-unit numbers or tick marks are visible on a rail.",
-    "false_description": "The visible rails have no rack-unit position marks."
-  },
-  {
-    "key": "front_door_present",
-    "category": "Doors and mounting",
-    "label": "Front door present",
-    "yes_is_good": true,
-    "instructions": "Is a front door attached to the rack?",
-    "true_description": "A front door is attached to the rack.",
-    "false_description": "The rack has no front door attached."
-  },
-  {
-    "key": "front_door_closed",
-    "category": "Doors and mounting",
-    "label": "Front door closed",
-    "yes_is_good": true,
-    "instructions": "Is the front door closed?",
-    "true_description": "The front door is closed.",
-    "false_description": "The front door is open."
-  },
-  {
-    "key": "door_latch_closed",
-    "category": "Doors and mounting",
-    "label": "Door latch closed",
-    "yes_is_good": true,
-    "instructions": "Is the door handle or latch in the closed position?",
-    "true_description": "The handle or latch is in the closed position.",
-    "false_description": "The handle or latch is in the open position."
-  },
-  {
-    "key": "equipment_on_rails",
-    "category": "Doors and mounting",
-    "label": "Equipment on rails",
-    "yes_is_good": true,
-    "instructions": "Is the equipment fastened to the rack rails?",
-    "true_description": "Equipment is fastened to the rack rails.",
-    "false_description": "A piece of equipment is resting loose, off the rails."
-  },
-  {
-    "key": "rail_fasteners_visible",
-    "category": "Doors and mounting",
-    "label": "Rail fasteners",
-    "yes_is_good": true,
-    "instructions": "Are mounting screws or cage nuts visible at the rails?",
-    "true_description": "Mounting screws or cage nuts are visible at the rails.",
-    "false_description": "The rail ears have no visible screws or cage nuts."
-  },
-  {
-    "key": "fronts_flush",
-    "category": "Doors and mounting",
-    "label": "Fronts flush",
-    "yes_is_good": true,
-    "instructions": "Do the equipment fronts sit flush with one another?",
-    "true_description": "Equipment fronts line up in one plane.",
-    "false_description": "An equipment front sticks out or sags relative to its neighbors."
-  },
-  {
-    "key": "rack_upright",
-    "category": "Doors and mounting",
-    "label": "Rack upright",
-    "yes_is_good": true,
-    "instructions": "Does the rack stand upright on its feet or casters?",
-    "true_description": "The rack stands upright on its feet or casters.",
-    "false_description": "The rack is leaning, tipped, or off its feet."
-  },
-  {
-    "key": "pdu_mounted",
-    "category": "Doors and mounting",
-    "label": "PDU mounted",
-    "yes_is_good": true,
-    "instructions": "Is a PDU mounted in the rack?",
-    "true_description": "A PDU is mounted in the rack.",
-    "false_description": "No PDU is mounted in the visible rack."
-  },
-  {
-    "key": "status_leds_visible",
-    "category": "Indicators",
-    "label": "Status LEDs visible",
-    "yes_is_good": true,
-    "instructions": "Are status LEDs visible on the equipment fronts?",
-    "true_description": "Status LEDs are visible on an equipment front.",
-    "false_description": "No status LEDs are visible on the equipment fronts."
-  },
-  {
-    "key": "green_led_lit",
-    "category": "Indicators",
-    "label": "Green LED lit",
-    "yes_is_good": true,
-    "instructions": "Is a green status LED lit?",
-    "true_description": "A green status LED is lit.",
-    "false_description": "No green status LED is lit."
-  },
-  {
-    "key": "red_fault_led_lit",
-    "category": "Indicators",
-    "label": "Red fault LED",
+    "key": "red_eye",
+    "category": "Faces & eyes",
+    "label": "Red-eye",
     "yes_is_good": false,
-    "instructions": "Is a red fault LED lit?",
-    "true_description": "A red fault LED is lit.",
-    "false_description": "No red fault LED is lit."
+    "instructions": "Is red-eye visible?",
+    "true_description": "Red-eye is visible.",
+    "false_description": "Red-eye is absent."
   },
   {
-    "key": "amber_warning_led_lit",
-    "category": "Indicators",
-    "label": "Amber warning LED",
+    "key": "mid_blink",
+    "category": "Faces & eyes",
+    "label": "Mid-blink",
     "yes_is_good": false,
-    "instructions": "Is an amber or yellow warning LED lit?",
-    "true_description": "An amber or yellow warning LED is lit.",
-    "false_description": "No amber or yellow warning LED is lit."
+    "instructions": "Is anyone caught mid-blink?",
+    "true_description": "Someone is caught mid-blink.",
+    "false_description": "No one is mid-blink."
   },
   {
-    "key": "link_leds_visible",
-    "category": "Indicators",
-    "label": "Link LEDs",
-    "yes_is_good": true,
-    "instructions": "Are network link LEDs visible on a switch or patch panel?",
-    "true_description": "Network link LEDs are visible on a switch or patch panel.",
-    "false_description": "No network link LEDs are visible on a switch or patch panel."
-  },
-  {
-    "key": "dark_equipment_face",
-    "category": "Indicators",
-    "label": "Dark equipment face",
+    "key": "glasses_glare",
+    "category": "Faces & eyes",
+    "label": "Glasses glare",
     "yes_is_good": false,
-    "instructions": "Is an installed unit's front dark, with its indicators unlit?",
-    "true_description": "An installed unit shows a dark front with unlit indicators.",
-    "false_description": "Installed units that are visible show a lit indicator."
+    "instructions": "Is glare hiding someone's eyes?",
+    "true_description": "Glare on glasses hides an eye.",
+    "false_description": "Eyes behind glasses, if any, stay visible."
   },
   {
-    "key": "floor_clear",
-    "category": "Surroundings",
-    "label": "Floor clear",
+    "key": "faces_forward",
+    "category": "Faces & eyes",
+    "label": "Faces turned forward",
     "yes_is_good": true,
-    "instructions": "Is the floor directly in front of the rack clear of loose objects?",
-    "true_description": "The floor directly in front of the rack is clear of loose objects.",
-    "false_description": "A loose object sits on the floor directly in front of the rack."
+    "instructions": "Are the faces turned toward the camera?",
+    "true_description": "The faces are turned toward the camera.",
+    "false_description": "A face is turned fully away."
   },
   {
-    "key": "liquid_visible",
-    "category": "Surroundings",
-    "label": "Liquid visible",
+    "key": "eyes_clear",
+    "category": "Faces & eyes",
+    "label": "Eyes clear",
+    "yes_is_good": true,
+    "instructions": "Are the eyes free of hair or hands covering them?",
+    "true_description": "The eyes are uncovered.",
+    "false_description": "Hair or a hand covers an eye."
+  },
+  {
+    "key": "relaxed_smile",
+    "category": "Expressions",
+    "label": "Relaxed smile",
+    "yes_is_good": true,
+    "instructions": "Do the smiles look relaxed?",
+    "true_description": "The smiles look relaxed.",
+    "false_description": "A smile looks tight or strained."
+  },
+  {
+    "key": "at_ease",
+    "category": "Expressions",
+    "label": "At ease",
+    "yes_is_good": true,
+    "instructions": "Does the expression look at ease?",
+    "true_description": "The expression looks at ease.",
+    "false_description": "The expression looks strained."
+  },
+  {
+    "key": "shared_mood",
+    "category": "Expressions",
+    "label": "Shared mood",
+    "yes_is_good": true,
+    "instructions": "If more than one person is shown, do their expressions fit together?",
+    "true_description": "The expressions fit together.",
+    "false_description": "The expressions clash, or only one person was meant to be posing."
+  },
+  {
+    "key": "squinting",
+    "category": "Expressions",
+    "label": "Squinting",
     "yes_is_good": false,
-    "instructions": "Is a spill, bottle, or leak visible on or beside the rack?",
-    "true_description": "A spill, bottle, or leak is visible on or beside the rack.",
-    "false_description": "No spill, bottle, or leak is visible on or beside the rack."
+    "instructions": "Is anyone squinting hard?",
+    "true_description": "Someone is squinting hard.",
+    "false_description": "The eyes are open without a hard squint."
   },
   {
-    "key": "heavy_dust",
-    "category": "Surroundings",
-    "label": "Heavy dust",
+    "key": "easy_expression",
+    "category": "Expressions",
+    "label": "Easy expression",
+    "yes_is_good": true,
+    "instructions": "Does the expression look easy?",
+    "true_description": "The expression looks easy.",
+    "false_description": "The expression looks forced."
+  },
+  {
+    "key": "cut_off_edge",
+    "category": "Framing",
+    "label": "Cut off at the edge",
     "yes_is_good": false,
-    "instructions": "Is a heavy layer of dust visible on vents or equipment lips?",
-    "true_description": "A heavy layer of dust is visible on a vent or an equipment lip.",
-    "false_description": "Vents and equipment lips look free of a heavy dust layer."
+    "instructions": "Is a person cut off by the frame edge?",
+    "true_description": "The frame cuts through a person.",
+    "false_description": "Each person sits fully inside the frame, or is cropped on purpose at the chest."
   },
   {
-    "key": "cardboard_present",
-    "category": "Surroundings",
-    "label": "Cardboard present",
+    "key": "head_cropped",
+    "category": "Framing",
+    "label": "Head cropped",
     "yes_is_good": false,
-    "instructions": "Is cardboard or packing material against or inside the rack?",
-    "true_description": "Cardboard or packing material is against or inside the rack.",
-    "false_description": "No cardboard or packing material is against or inside the rack."
+    "instructions": "Is a head cropped by the frame?",
+    "true_description": "The frame crops through a head.",
+    "false_description": "Each head is fully inside the frame."
   },
   {
-    "key": "tools_left_behind",
-    "category": "Surroundings",
-    "label": "Tools left behind",
+    "key": "upright_background",
+    "category": "Framing",
+    "label": "Upright background",
+    "yes_is_good": true,
+    "instructions": "Is the background upright, with a level horizon where one is visible?",
+    "true_description": "Verticals and the horizon, where visible, sit level.",
+    "false_description": "The background leans, or the horizon tilts."
+  },
+  {
+    "key": "balanced_placement",
+    "category": "Framing",
+    "label": "Balanced placement",
+    "yes_is_good": true,
+    "instructions": "Does the subject sit near the centre or on a third?",
+    "true_description": "The subject sits near the centre or near a third.",
+    "false_description": "The subject is jammed into a corner."
+  },
+  {
+    "key": "room_above_head",
+    "category": "Framing",
+    "label": "Room above the head",
+    "yes_is_good": true,
+    "instructions": "Is there a little space above the head?",
+    "true_description": "A little space sits above the head.",
+    "false_description": "The head touches the top edge, or a large empty gap hangs above it."
+  },
+  {
+    "key": "face_large_enough",
+    "category": "Framing",
+    "label": "Face is large enough",
+    "yes_is_good": true,
+    "instructions": "Does a face fill a generous part of the frame?",
+    "true_description": "A face is large enough to read clearly.",
+    "false_description": "The faces are tiny in the frame."
+  },
+  {
+    "key": "square_crop",
+    "category": "Framing",
+    "label": "Works as a square crop",
+    "yes_is_good": true,
+    "instructions": "Would a square crop still include the head?",
+    "true_description": "A square crop can keep the head inside.",
+    "false_description": "A square crop would slice the head."
+  },
+  {
+    "key": "camera_tilt",
+    "category": "Framing",
+    "label": "Camera tilt",
     "yes_is_good": false,
-    "instructions": "Are hand tools left on or in the rack?",
-    "true_description": "A hand tool is left on or in the rack.",
-    "false_description": "No hand tools are left on or in the rack."
+    "instructions": "Are the people leaning because the camera is tilted?",
+    "true_description": "The camera tilt makes the people lean.",
+    "false_description": "The camera is level."
   },
   {
-    "key": "aisle_clearance",
-    "category": "Surroundings",
-    "label": "Aisle clearance",
+    "key": "space_around",
+    "category": "Framing",
+    "label": "Space around the subject",
     "yes_is_good": true,
-    "instructions": "Is there walking space in the aisle in front of the rack?",
-    "true_description": "The aisle in front of the rack has space for a person to walk.",
-    "false_description": "The aisle in front of the rack is blocked."
+    "instructions": "Is there comfortable space around the subject?",
+    "true_description": "Comfortable space surrounds the subject.",
+    "false_description": "The subject is pressed against the frame."
   },
   {
-    "key": "overhead_tray",
-    "category": "Surroundings",
-    "label": "Overhead tray",
+    "key": "shoulders_in",
+    "category": "Framing",
+    "label": "Shoulders in frame",
     "yes_is_good": true,
-    "instructions": "Is an overhead cable tray visible above the rack?",
-    "true_description": "An overhead cable tray is visible above the rack.",
-    "false_description": "No overhead cable tray is visible above the rack."
+    "instructions": "Are the shoulders in the frame?",
+    "true_description": "The shoulders are in the frame.",
+    "false_description": "The crop cuts through the neck or the chin."
   },
   {
-    "key": "raised_floor",
-    "category": "Surroundings",
-    "label": "Raised floor",
+    "key": "tidy_background",
+    "category": "Background",
+    "label": "Tidy background",
     "yes_is_good": true,
-    "instructions": "Are raised floor tiles visible?",
-    "true_description": "Raised floor tiles are visible.",
-    "false_description": "The visible floor is not a raised floor."
+    "instructions": "Is the background tidy?",
+    "true_description": "The background is tidy.",
+    "false_description": "The background is messy."
   },
   {
-    "key": "aisle_containment",
-    "category": "Surroundings",
-    "label": "Aisle containment",
-    "yes_is_good": true,
-    "instructions": "Is aisle containment, such as a door, a curtain, or a roof, visible?",
-    "true_description": "An aisle door, curtain, or containment roof is visible.",
-    "false_description": "No aisle door, curtain, or containment roof is visible."
+    "key": "busy_background",
+    "category": "Background",
+    "label": "Busy background",
+    "yes_is_good": false,
+    "instructions": "Does the background pull attention away from the subject?",
+    "true_description": "The background competes with the subject.",
+    "false_description": "The background stays quiet."
   },
   {
-    "key": "photo_is_rack",
-    "category": "Surroundings",
-    "label": "Photo shows a rack",
+    "key": "object_on_head",
+    "category": "Background",
+    "label": "Object on the head",
+    "yes_is_good": false,
+    "instructions": "Does a pole, tree, or lamp appear to grow out of a head?",
+    "true_description": "A pole, tree, or lamp lines up with a head.",
+    "false_description": "Nothing lines up as if it grows from a head."
+  },
+  {
+    "key": "photobomber",
+    "category": "Background",
+    "label": "Photobomber",
+    "yes_is_good": false,
+    "instructions": "Is an extra person prominent behind the subject?",
+    "true_description": "An extra person is prominent in the background.",
+    "false_description": "The background has no prominent extra person."
+  },
+  {
+    "key": "lens_flare",
+    "category": "Background",
+    "label": "Lens flare",
+    "yes_is_good": false,
+    "instructions": "Is lens flare washing across the frame?",
+    "true_description": "Lens flare washes across the frame.",
+    "false_description": "Lens flare is absent."
+  },
+  {
+    "key": "clutter_behind",
+    "category": "Background",
+    "label": "Clutter behind",
+    "yes_is_good": false,
+    "instructions": "Is clutter sitting right behind the subject?",
+    "true_description": "Clutter sits directly behind the subject.",
+    "false_description": "The area behind the subject is clear."
+  },
+  {
+    "key": "stands_out",
+    "category": "Background",
+    "label": "Subject stands out",
     "yes_is_good": true,
-    "instructions": "Is a server rack the main subject of the photo?",
-    "true_description": "A server rack is the main subject of the photo.",
-    "false_description": "The photo's main subject is something other than a server rack."
+    "instructions": "Does the subject stand out from the background?",
+    "true_description": "The subject separates clearly from the background.",
+    "false_description": "The subject blends into the background."
+  },
+  {
+    "key": "natural_colours",
+    "category": "Colour",
+    "label": "Natural colours",
+    "yes_is_good": true,
+    "instructions": "Do the colours look natural?",
+    "true_description": "The colours look natural.",
+    "false_description": "The colours look off."
+  },
+  {
+    "key": "colour_cast",
+    "category": "Colour",
+    "label": "Colour cast",
+    "yes_is_good": false,
+    "instructions": "Is a strong colour cast visible?",
+    "true_description": "A strong colour cast covers the frame.",
+    "false_description": "The frame has no strong colour cast."
+  },
+  {
+    "key": "harsh_saturation",
+    "category": "Colour",
+    "label": "Harsh saturation",
+    "yes_is_good": false,
+    "instructions": "Are the colours harshly oversaturated?",
+    "true_description": "The colours are harshly oversaturated.",
+    "false_description": "The saturation looks moderate."
+  },
+  {
+    "key": "consistent_colour",
+    "category": "Colour",
+    "label": "Consistent colour",
+    "yes_is_good": true,
+    "instructions": "Is the colour consistent across the frame?",
+    "true_description": "Colour stays consistent across the frame.",
+    "false_description": "Different parts of the frame shift to different casts."
+  },
+  {
+    "key": "white_balance",
+    "category": "Colour",
+    "label": "Neutral white balance",
+    "yes_is_good": true,
+    "instructions": "Does the white balance look neutral?",
+    "true_description": "Whites and greys look neutral.",
+    "false_description": "Whites and greys lean strongly warm or cool."
+  },
+  {
+    "key": "profile_square",
+    "category": "Profile-picture fit",
+    "label": "Square crop keeps the face",
+    "yes_is_good": true,
+    "instructions": "Does a square profile crop keep the face intact?",
+    "true_description": "A square crop can keep the face intact.",
+    "false_description": "A square crop would cut the face."
+  },
+  {
+    "key": "face_share",
+    "category": "Profile-picture fit",
+    "label": "Face fills the frame",
+    "yes_is_good": true,
+    "instructions": "Does the face take up enough of the frame for a profile picture?",
+    "true_description": "The face is large enough for a profile picture.",
+    "false_description": "The face is too small for a profile picture."
+  },
+  {
+    "key": "clear_subject",
+    "category": "Profile-picture fit",
+    "label": "Clear subject",
+    "yes_is_good": true,
+    "instructions": "Is there one clear subject, or a clear pair?",
+    "true_description": "One person, or a clear pair, is the subject.",
+    "false_description": "The frame has no clear subject."
   }
 ]
