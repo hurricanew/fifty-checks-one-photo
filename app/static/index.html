@@ -216,7 +216,7 @@
             <label><input type="radio" name="mode" value="replay" checked> Replay sample</label>
             <label><input type="radio" name="mode" value="live"> Live Decisions API</label>
           </div>
-          <p class="hint" id="replay-copy">Replay loads a fixed file labelled <strong>SAMPLE - not a real API result</strong>. It does not call the API, it does not score your photo, and it has no measured latency, tokens, or cost. Run <code>scripts/refresh_sample.py</code> later if you want that file to come from a real call.</p>
+          <p class="hint" id="replay-copy">Checking the saved replay file…</p>
           <p class="hint" id="key-status">Checking whether this server has a key…</p>
           <p class="hint" id="limits">Live calls are rate limited. Replay is not.</p>
           <label class="fallback">
@@ -275,6 +275,7 @@
       document.querySelector("#key-status").textContent = meta.live_key_set
         ? "GEMINI_API_KEY is set on this server. Live mode will call " + meta.model + " at resolution " + meta.image_resolution + "."
         : "This server has no GEMINI_API_KEY. Live mode will refuse and will not invent a result.";
+      document.querySelector("#replay-copy").textContent = meta.replay.hint;
       document.querySelector("#limits").textContent =
         "Live calls are limited to " + meta.live_calls_per_ip_per_hour +
         " per address per hour, and " + meta.live_calls_per_day +

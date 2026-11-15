@@ -12,7 +12,7 @@ from app.checks import load_checks
 from app.config import load_settings
 from app.labels import SAMPLE_LABEL
 from app.limits import RateLimited, client_ip, limiter_from_env, trust_proxy_from_env
-from app.sample_data import load_sample
+from app.sample_data import load_sample, replay_hint
 from app.service import CallFailed, MissingApiKey, api_key_from_env, evaluate
 from app.uploads import UploadError, parse_upload, validate_image
 
@@ -60,6 +60,16 @@ def create_app() -> FastAPI:
                     "uncertain_high": current.thresholds.uncertain_high,
                 },
                 "sample_label": SAMPLE_LABEL,
+                "replay": {
+                    "label": app.state.sample.label,
+                    "recorded": app.state.sample.kind == "recorded",
+                    "photo_name": app.state.sample.photo_name,
+                    "latency_ms": app.state.sample.latency_ms,
+                    "input_tokens": app.state.sample.input_tokens,
+                    "output_tokens": app.state.sample.output_tokens,
+                    "cost_usd": app.state.sample.cost_usd,
+                    "hint": replay_hint(app.state.sample),
+                },
                 "cost_formula": "input_tokens * 0.10 / 1000000",
                 "live_calls_per_ip_per_hour": app.state.limiter.per_ip_per_hour,
                 "live_calls_per_day": app.state.limiter.per_day,

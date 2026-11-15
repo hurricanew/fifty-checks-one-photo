@@ -8,7 +8,7 @@ from fastapi.testclient import TestClient
 
 from app.config import ROOT
 from app.labels import FALLBACK_LABEL, RECORDED_LABEL, SAMPLE_LABEL
-from app.sample_data import ReplaySource, load_sample
+from app.sample_data import ReplaySource, load_sample, replay_hint
 from app.main import create_app
 from app.service import CallFailed, MissingApiKey, decisions_unavailable, evaluate
 from app.tiles import classify
@@ -57,7 +57,8 @@ def test_page_and_meta_describe_the_sample_and_the_fifty_checks(monkeypatch):
     page = client.get("/")
     assert page.status_code == 200
     assert "50 checks on one photo" in page.text
-    assert SAMPLE_LABEL in page.text
+    assert 'id="replay-copy"' in page.text
+    assert "Run <code>scripts/refresh_sample.py</code> later" not in page.text
     assert (
         "Your photo is checked in memory and never stored or logged. "
         "We only look at the photo, never rate how anyone looks."
@@ -67,6 +68,29 @@ def test_page_and_meta_describe_the_sample_and_the_fifty_checks(monkeypatch):
     assert meta["live_key_set"] is False
     assert meta["sample_label"] == SAMPLE_LABEL
     assert meta["cost_formula"] == "input_tokens * 0.10 / 1000000"
+    shipped = json.loads((ROOT / "data" / "sample_response.json").read_text(encoding="utf-8"))
+    replay = meta["replay"]
+    assert replay["hint"]
+    assert replay["label"] == shipped["label"]
+    if shipped["label"] == SAMPLE_LABEL:
+        assert replay["recorded"] is False
+        assert replay["latency_ms"] is None
+        assert replay["cost_usd"] is None
+        assert SAMPLE_LABEL in replay["hint"]
+        assert "refresh_sample.py" in replay["hint"]
+    else:
+        assert replay["recorded"] is True
+        assert replay["photo_name"] == shipped["photo_name"]
+        assert replay["latency_ms"] == shipped["latency_ms"]
+        assert replay["input_tokens"] == shipped["usage"]["total_input_tokens"]
+        assert replay["cost_usd"] == shipped["cost_usd"]
+        assert shipped["photo_name"] in replay["hint"]
+        assert "one real call" in replay["hint"]
+        assert "does not call the API or score your photo" in replay["hint"]
+        assert SAMPLE_LABEL not in replay["hint"]
+        assert f"{shipped['latency_ms']:.1f} ms" in replay["hint"]
+        assert str(shipped["usage"]["total_input_tokens"]) in replay["hint"]
+        assert f"US${shipped['cost_usd']}" in replay["hint"]
 
 
 def test_replay_renders_fifty_tiles_and_does_not_invent_measurements(monkeypatch):
@@ -150,6 +174,10 @@ def test_placeholder_replay_shows_the_sample_label_and_no_figures(monkeypatch):
     assert payload["usage"]["input_tokens"] is None
     assert payload["usage"]["cost_usd"] is None
     assert len(payload["tiles"]) == 50
+    hint = replay_hint(ReplaySource(answers=answers, kind="sample"))
+    assert SAMPLE_LABEL in hint
+    assert "no measured latency, tokens, or cost" in hint
+    assert "one real call on" not in hint
     assert load_sample(ROOT / "data" / "sample_response.json").kind in {"sample", "recorded"}
 
 
