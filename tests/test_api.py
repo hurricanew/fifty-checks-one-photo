@@ -1,4 +1,5 @@
 import base64
+import json
 import tempfile
 import time
 from pathlib import Path
@@ -6,7 +7,8 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from app.config import ROOT
-from app.labels import FALLBACK_LABEL, SAMPLE_LABEL
+from app.labels import FALLBACK_LABEL, RECORDED_LABEL, SAMPLE_LABEL
+from app.sample_data import ReplaySource, load_sample
 from app.main import create_app
 from app.service import CallFailed, MissingApiKey, decisions_unavailable, evaluate
 from app.tiles import classify
@@ -69,26 +71,42 @@ def test_page_and_meta_describe_the_sample_and_the_fifty_checks(monkeypatch):
 
 def test_replay_renders_fifty_tiles_and_does_not_invent_measurements(monkeypatch):
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    shipped = json.loads((ROOT / "data" / "sample_response.json").read_text(encoding="utf-8"))
     client = TestClient(create_app())
     response = client.post(
         "/api/check",
-        files={"photo": ("rack.png", PNG, "image/png")},
+        files={"photo": ("person.png", PNG, "image/png")},
         data={"mode": "replay", "fallback": "0"},
     )
     assert response.status_code == 200
     body = response.json()
-    assert body["sample_label"] == SAMPLE_LABEL
     assert body["fallback_label"] is None
     assert body["source"] == "replay"
     assert body["photo"]["sent_to_model"] is False
     assert body["photo"]["byte_size"] == len(PNG)
+    # This request did not call the API, so the header stays unmeasured.
     assert body["timing"]["measured"] is False
     assert body["timing"]["latency_ms"] is None
     assert body["usage"]["measured"] is False
     assert body["usage"]["input_tokens"] is None
+    assert body["usage"]["output_tokens"] is None
     assert body["usage"]["cost_usd"] is None
     assert len(body["tiles"]) == 50
     assert sum(body["summary"].values()) == 50
+    if shipped["label"] == SAMPLE_LABEL:
+        assert body["sample_label"] == SAMPLE_LABEL
+        assert body["recorded_label"] is None
+        assert "will not invent" in body["usage"]["note"]
+    else:
+        assert shipped["label"] == RECORDED_LABEL
+        assert shipped["recorded"] is True
+        assert body["sample_label"] is None
+        assert body["recorded_label"] == shipped["label"]
+        note = body["usage"]["note"]
+        assert f"{shipped['latency_ms']:.1f}" in note
+        assert str(shipped["usage"]["total_input_tokens"]) in note
+        assert f"US${shipped['cost_usd']}" in note
+        assert "not for the photo you just chose" in note
     app = client.app
     by_key = {check.key: check for check in app.state.checks}
     for tile in body["tiles"]:
@@ -99,7 +117,40 @@ def test_replay_renders_fifty_tiles_and_does_not_invent_measurements(monkeypatch
             check.yes_is_good,
             app.state.settings.thresholds,
         )
+        file_answer = shipped["answers"][tile["key"]]
+        assert tile["p_yes"] == file_answer["noul"]
+        assert tile["confidence"] == file_answer["confidence"]
     assert {tile["status"] for tile in body["tiles"]} == {"green", "red", "amber"}
+
+
+def test_placeholder_replay_shows_the_sample_label_and_no_figures(monkeypatch):
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    app = create_app()
+    answers = {
+        check.key: type("A", (), {"p_yes": 0.2 if check.yes_is_good else 0.8, "confidence": 0.9})()
+        for check in app.state.checks
+    }
+    # One uncertain and one low-confidence answer so all three colours appear.
+    first, second, third = app.state.checks[:3]
+    answers[first.key] = type("A", (), {"p_yes": 0.93, "confidence": 0.91})()
+    answers[second.key] = type("A", (), {"p_yes": 0.5, "confidence": 0.95})()
+    answers[third.key] = type("A", (), {"p_yes": 0.96, "confidence": 0.2})()
+    payload = evaluate(
+        mode="replay",
+        image=PNG,
+        mime_type="image/png",
+        checks=app.state.checks,
+        settings=app.state.settings,
+        sample_answers=ReplaySource(answers=answers, kind="sample"),
+        fallback_requested=False,
+    )
+    assert payload["sample_label"] == SAMPLE_LABEL
+    assert payload["recorded_label"] is None
+    assert payload["timing"]["latency_ms"] is None
+    assert payload["usage"]["input_tokens"] is None
+    assert payload["usage"]["cost_usd"] is None
+    assert len(payload["tiles"]) == 50
+    assert load_sample(ROOT / "data" / "sample_response.json").kind in {"sample", "recorded"}
 
 
 def test_live_mode_without_a_key_fails_cleanly(monkeypatch):

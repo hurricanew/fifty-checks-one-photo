@@ -5,7 +5,8 @@ import pytest
 
 from app.checks import load_checks, validate_checks
 from app.config import ROOT, load_settings
-from app.labels import SAMPLE_LABEL
+from app.cost import decisions_cost_usd
+from app.labels import RECORDED_LABEL, SAMPLE_LABEL
 
 CHECKS_PATH = ROOT / "data" / "checks.json"
 SAMPLE_PATH = ROOT / "data" / "sample_response.json"
@@ -54,18 +55,28 @@ def test_rejects_a_negated_question_and_a_bad_key():
         validate_checks(bad_key)
 
 
-def test_sample_file_is_labelled_and_has_no_measurements():
+def test_sample_file_is_a_placeholder_or_a_recorded_call():
     raw = json.loads(SAMPLE_PATH.read_text(encoding="utf-8"))
-    assert raw["label"] == SAMPLE_LABEL
-    assert "not a real API result" in raw["label"]
-    assert "latency_ms" not in raw
-    assert "cost_usd" not in raw
-    assert "usage" not in raw
     checks = load_checks(CHECKS_PATH)
     assert set(raw["answers"]) == {check.key for check in checks}
     for answer in raw["answers"].values():
         assert 0.01 <= answer["noul"] <= 0.99
         assert 0.0 <= answer["confidence"] <= 1.0
+    if raw["label"] == SAMPLE_LABEL:
+        assert raw.get("recorded") is not True
+        assert "latency_ms" not in raw
+        assert "cost_usd" not in raw
+        assert "usage" not in raw
+    else:
+        assert raw["label"] == RECORDED_LABEL
+        assert raw["recorded"] is True
+        tokens = raw["usage"]["total_input_tokens"]
+        assert isinstance(tokens, int) and tokens >= 0
+        assert isinstance(raw["latency_ms"], (int, float)) and not isinstance(raw["latency_ms"], bool)
+        assert raw["latency_ms"] >= 0
+        assert raw["cost_usd"] == decisions_cost_usd(tokens)
+        output_tokens = raw["usage"]["total_output_tokens"]
+        assert output_tokens is None or isinstance(output_tokens, int)
 
 
 FORBIDDEN_PERSON_TERMS = re.compile(
